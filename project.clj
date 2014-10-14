@@ -4,7 +4,7 @@
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.1.9"]
-                 [ring-middleware-format "0.2.2"]
+                 [ring-middleware-format "0.4.0"]
                  [ring/ring-json "0.3.1"]
                  [com.taoensso/timbre "3.1.6"]
                  [com.novemberain/monger "2.0.0"]
