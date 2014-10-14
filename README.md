@@ -1,6 +1,6 @@
 # hunter-api
 
-FIXME
+REST API  to handle open datasets meta-data
 
 ## Prerequisites
 
@@ -16,4 +16,4 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 Raw Data Hunter - Nicolas Terpolillie
