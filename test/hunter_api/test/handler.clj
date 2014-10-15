@@ -3,12 +3,11 @@
             [hunter-api.handler :refer :all]
             [ring.mock.request :as mock]))
 
-(deftest test-app
-  (testing "main route"
-    (let [response (app (mock/request :get "/"))]
-      (is (= (:status response) 200))
-      (is (= (:body response) "Hello World"))))
-  
+(deftest test-api-routes
+  (testing "API options"
+    (let [response (api-routes (mock/request :options "/api"))]
+      (is (= (response :status) 200))
+      (is (contains? (response :body) :version))))
   (testing "not-found route"
-    (let [response (app (mock/request :get "/invalid"))]
+    (let [response (api-routes (mock/request :get "/invalid"))]
       (is (= (:status response) 404)))))
