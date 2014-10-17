@@ -13,8 +13,8 @@
             [compojure.handler :as handler]
             [compojure.route :as route]
             [hunter-api.middleware :refer [wrap-exception-handler
-                                        wrap-request-logger
-                                        wrap-response-logger]]
+                                           wrap-request-logger
+                                           wrap-response-logger]]
             [hunter-api.http :as http]
             [hunter-api.data :as data]
             [ring.middleware.format-response :refer [wrap-restful-response]]

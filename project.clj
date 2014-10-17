@@ -8,7 +8,7 @@
                  [ring/ring-json "0.3.1"]
                  [com.taoensso/timbre "3.1.6"]
                  [com.novemberain/monger "2.0.0"]
-                 [com.novemberain/validateur "1.7.0"]
+                 [com.novemberain/validateur "2.3.1"]
                  [slingshot "0.10.3"]
                  [clj-time "0.6.0"]]
   :plugins [[lein-ring "0.8.12"]]
