@@ -18,10 +18,6 @@
    :db "hunter-datasets"
    :datasets-collection "ds"})
 
-(comment 
-  (def conn (connect mongo-options))
-  (get-db conn (mongo-options :db)))
-
 ;;; Utility Functions
 
 (defn with-oid
@@ -92,3 +88,25 @@
                                     new-ds))
           new-ds
           (throw+ {:type ::failed} "Create Failed")))))
+
+(defn get-dataset
+  "Fetch a dataset by ID"
+  [id]
+  (validate [id ::ObjectID])
+  (let [conn (connect mongo-options)
+        db (get-db conn (mongo-options :db))
+        ds (collection/find-map-by-id db (mongo-options :datasets-collection) (ObjectId. id))]
+    (if (nil? ds)
+      (throw+ {:type ::not-found} (str id " not found"))
+      ds)))
+
+(defn delete-dataset
+  "Delete a dataset by ID"
+  [id]
+  (validate [id ::ObjectID])
+  (let [conn (connect mongo-options)
+        db (get-db conn (mongo-options :db))
+        ds (get-dataset id)]
+    (if (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
+      ds
+      (throw+ {:type ::failed} "Detete Failed"))))
