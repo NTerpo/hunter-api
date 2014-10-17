@@ -76,6 +76,7 @@
   "title": "Campagne 2001 de recensements nationaux - Population par sexe, âge, type de ménage et situation du ménage - 2001",
   "uri": "https://www.data.gouv.fr/api/1/datasets/campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-me-dp/"
 }
+
 {
   "community_resources": [],
   "created_at": "2013-09-18T12:45:51.130000",
@@ -163,6 +164,111 @@
   "title": "Causes de décès - Décès dus aux accidents de transport , par sexe - De 1998 à 2009",
   "uri": "https://www.data.gouv.fr/api/1/datasets/causes-de-deces-deces-dus-aux-accidents-de-transport-par-sexe-de-1998-a-2009-dp/"
 }
+
+### data.gov.uk
+
+{"license_title": "UK Open Government Licence (OGL)", "maintainer":
+null, "private": false, "maintainer_email": null, "id":
+"b9ce6140-9932-47ac-95b1-aa85cbcc2ce8", "metadata_created":
+"2010-02-09T16:28:14.547512",
+"relationships": [],
+"license": "UK Open
+Government Licence (OGL)",
+"metadata_modified":"2014-02-04T00:00:44.033969",
+"author": "Neighbourhood Statistics",
+"author_email": null,
+"state": "active",
+"version": null,
+"creator_user_id": null,
+"type": "dataset",
+"resources": [{"content_length": "None",
+    "resource_group_id": "44ddc1a4-1e3c-034c-7841-495f26d3bd38",
+    "content_type": "text/html",
+    "cache_last_updated": "2013-06-19T05:23:44.839118",
+    "package_id": "b9ce6140-9932-47ac-95b1-aa85cbcc2ce8",
+    "webstore_last_updated": null,
+    "id": "0506f2d6-5a18-45ad-8672-dba6951232b2",
+    "size": "5592",
+    "cache_filepath": "/mnt/shared/ckan_resource_cache/05/0506f2d6-5a18-45ad-8672-dba6951232b2/datasetList.do",
+    "openness_score": "1",
+    "last_modified": "2014-02-04T00:00:43.963715",
+    "hash": "4eaf5a8a8223fcdc9b76b2a087be5da6b8290415",
+    "description": "In People and Society/Population and Migration/Key Regeneration Related Statistics. ",
+    "format": "",
+    "mimetype_inner": null,
+    "openness_score_failure_count": "0",
+    "url_type": null,
+    "openness_score_reason":"obtainable via web page",
+    "mimetype": "text/html",
+    "cache_url": "http://data.gov.uk/data/resource_cache/05/0506f2d6-5a18-45ad-8672-dba6951232b2/datasetList.do",
+    "name": null,
+    "created": null,
+    "url": "http://neighbourhood.statistics.gov.uk/dissemination/datasetList.do?JSAllowed=true&amp;Function=&amp;%24ph=60&amp;CurrentPageId=60&amp;step=1&amp;CurrentTreeIndex=-1&amp;searchString=&amp;datasetFamilyId=789&amp;Next.x=9&amp;Next.y=16",
+    "webstore_url": null,
+    "position": 0,
+    "resource_type": null}],
+"num_resources": 1,
+"tags": ["census", "population"],
+"groups": [],
+"license_id":"uk-ogl",
+"num_tags": 2,
+"organization": {
+    "description": "The Office for National Statistics (ONS) is the UK\u2019s largest independent producer of official statistics and is the recognised national statistical institute for the UK. It is responsible for collecting and publishing statistics related to the economy, population and society at national, regional and local levels. It also conducts the census in England and Wales every ten years. \r\n\r\nThe ONS plays a leading role in national and international good practice in the production of official statistics. It is the executive office of the UK Statistics Authority and although they are separate, they are still closely related.\r\n", "title": "Office for National Statistics", "created": "2012-06-27T14:48:40.553767",
+    "approval_status": "pending",
+    "revision_timestamp": "2013-11-18T09:19:38.562799",
+    "is_organization": true,
+    "state": "active",
+    "image_url": "",
+    "revision_id": "7e5f291f-23db-45b3-a2f9-b3fce62f892d",
+    "type": "organization",
+    "id": "d5b50862-3f2a-4b7b-ad85-841b6def43be",
+    "name": "office-for-national-statistics"},
+"name": "population_density",
+"isopen": true,
+"notes_rendered": "<p>Population density: Persons per
+hectare\n Source: Census 2001\n Publisher: Neighbourhood Statistics\n
+Geographies: Output Area (OA), Lower Layer Super Output Area (LSOA),
+Middle Layer Super Output Area (MSOA), Ward, Local Authority District
+(LAD), Government Office Region (GOR), National\n Geographic coverage:
+England and Wales\n Time coverage: 2001\n Type of data: Survey
+(census)\n</p>", "url": "http://www.data4nr.net/resources/401/",
+"ckan_url": "http://data.gov.uk/dataset/population_density", "notes":
+"Population density: Persons per hectare\r\nSource: Census
+2001\r\nPublisher: Neighbourhood Statistics\r\nGeographies: Output
+Area (OA), Lower Layer Super Output Area (LSOA), Middle Layer Super
+Output Area (MSOA), Ward, Local Authority District (LAD), Government
+Office Region (GOR), National\r\nGeographic coverage: England and
+Wales\r\nTime coverage: 2001\r\nType of data: Survey (census)",
+"owner_org": "d5b50862-3f2a-4b7b-ad85-841b6def43be",
+"ratings_average": null,
+"extras": {
+    "temporal_coverage-from": "",
+    "date_updated": "",
+    "published_via": "",
+    "temporal_coverage_to":"2001",
+    "import_source": "DATA4NR-data4nr-export-09-02-2010.csv",
+    "openness_score": "1",
+    "temporal_granularity": "",
+    "agency": "",
+    "geographic_granularity": "",
+    "temporal_coverage-to": "",
+    "department": "",
+    "precision": "",
+    "temporal_coverage_from": "2001",
+    "published_by": "Office for National Statistics [11606]",
+    "taxonomy_url": "",
+    "categories": "",
+    "geographic_coverage": "101000: England, Wales",
+    "external_reference": "DATA4NR-401",
+    "national_statistic": "no",
+    "openness_score_last_checked": "2011-06-07T09:15:05.324900",
+    "update_frequency": "Every 10 years",
+    "date_released": "",
+    "theme-primary": "Society"},
+"license_url": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/",
+"ratings_count": 0,
+"title": "Population density",
+"revision_id": "6e758b09-1399-4492-8412-7f0d4efff697"}
 
 ## Ce dont on a besoin absolument (ce qui constitue notre VP)
 
