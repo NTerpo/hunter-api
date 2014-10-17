@@ -45,3 +45,25 @@
       (is (contains? created-ds :modified))))
   (testing "create invalid dataset"
     (is (thrown+? [:type :hunter-api.data/invalid] (create-dataset {} "hunter-datasets-test")))))
+
+(deftest test-get-dataset
+  (testing "get valid dataset"
+    (let [created (create-dataset {:date 2014})
+          ds (get-dataset (.toString (created :_id)))]
+      (is (map? ds))
+      (is (contains? created :_id))
+      (is (contains? created :created))
+      (is (contains? created :date))
+      (is (contains? created :modified))))
+  (testing "get dataset with invalid id"
+    (is (thrown+? [:type :hunter-api.data/invalid] (get-dataset "666"))))
+  (testing "get non-existent dataset"
+    (is (thrown+? [:type :hunter-api.data/not-found] (get-dataset "543e62ab40694721af85ae5f")))))
+
+(deftest test-delete-dataset
+  (testing "delete dataset"
+    (let [created (create-dataset {:date 2014})
+          deleted (delete-dataset (.toString (created :_id)))]
+      (is (not (nil? deleted)))))
+  (testing "delete with invalid id"
+    (is (thrown+? [:type :hunter-api.data/invalid] (delete-dataset "666")))))
