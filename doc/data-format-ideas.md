@@ -280,10 +280,10 @@ Wales\r\nTime coverage: 2001\r\nType of data: Survey (census)",
 * producteur des données
 * uri
 * pays/zone/spacial
-* réutilisations?!
 
 ## Champs pour lesquels on hésite
 
-
+* réutilisations?!
+* noms de colonnes
 
 ## Noms des champs choisis

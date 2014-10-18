@@ -100,6 +100,10 @@
       (throw+ {:type ::not-found} (str id " not found"))
       ds)))
 
+(defn find-dataset
+  "Fetch a dataset by tags"
+  )
+
 (defn delete-dataset
   "Delete a dataset by ID"
   [id]
