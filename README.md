@@ -55,10 +55,15 @@ open [link](http://www.data-publica.com/opendata/9980--campagne-2001-de-recensem
 ### Rapidité
 
 Peter Thiel: coeur de la VP = 10x meilleur que les concurrents
+
 => réponse doit être 10x plus rapide qu'une recherche de jeux de données à la main que ce soit sur les sites classiques ou sur les concurrents
+
 5 minutes -> 30 secondes
+
 4 minutes -> 24 secondes
+
 3 miuntes -> 18 secondes
+
 2 minutes -> 12 secondes
 
 ### Simplicité
