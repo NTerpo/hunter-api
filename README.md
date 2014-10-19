@@ -25,7 +25,7 @@ Find open data easily and quickier than ever
 ## Explication
 
 ---------------------------
-$ hunter france population
+**$ hunter france population**
 
 title: "Campagne 2001 de recensements nationaux - Population par sexe, âge, type de ménage et situation du ménage" 
 
@@ -37,18 +37,17 @@ Tableau 4 : Légende de l'indicateur geo (Entité géopolitique (déclarante))
 Tableau 5 : Légende de l'indicateur hhtyp (Type de ménage)
 Tableau 6 : Légende de l'indicateur sex (Sexe)"
 
-spacial: France
-
-date: 2001
-
 producteur: Eurostat
 
-last-modified: 2014-09-17
+temporal-coverage: 2001
+
+spacial-coverage: France
 
 created: 2013-09-18
 
+last-modified: 2014-09-17
 
-open [link](http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001)? (yN)
+[get the data](http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001)? (yN)
 
 ---------------------------
 

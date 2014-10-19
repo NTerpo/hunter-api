@@ -285,5 +285,17 @@ Wales\r\nTime coverage: 2001\r\nType of data: Survey (census)",
 
 * réutilisations?!
 * noms de colonnes
+* score représentant soit réutilisation soit ratio clicks/recherches
+=> à creuser mais globalement je ne pense pas que ça ait à figurer dans la réponse renvoyée
 
 ## Noms des champs choisis
+
+* title
+* description
+* producer
+* temporal-coverage
+* spacial-coverage
+* created 
+* last-modified
+* uri
+* tags
