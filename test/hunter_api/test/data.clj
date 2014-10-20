@@ -47,8 +47,8 @@
 
 (deftest test-get-dataset
   (testing "get valid dataset"
-    (let [created-ds (create-dataset valid-dataset)
-          ds (get-dataset (.toString (created-ds :_id)))]
+    (let [created-ds (create-dataset valid-dataset "hunter-datasets-test")
+          ds (get-dataset (.toString (created-ds :_id)) "hunter-datasets-test")]
       (is (map? ds))
       (is (nil? (validate [ds :hunter-api.data/Dataset])))
       (is (= (created-ds ds)))))
@@ -59,8 +59,8 @@
 
 (deftest test-delete-dataset
   (testing "delete dataset"
-    (let [created (create-dataset valid-dataset)
-          deleted (delete-dataset (.toString (created :_id)))]
+    (let [created-ds (create-dataset valid-dataset "hunter-datasets-test")
+          deleted (delete-dataset (.toString (created-ds :_id)) "hunter-datasets-test")]
       (is (not (nil? deleted)))))
   (testing "delete with invalid id"
     (is (thrown+? [:type :hunter-api.data/invalid] (delete-dataset "666")))))

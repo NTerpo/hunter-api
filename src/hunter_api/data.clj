@@ -99,26 +99,45 @@
 
 (defn get-dataset
   "Fetch a dataset by ID"
-  [id]
-  (validate [id ::ObjectID])
+  ([id]
+     (validate [id ::ObjectID])
+     (let [conn (connect mongo-options)
+           db (get-db conn (mongo-options :db))
+           ds (collection/find-map-by-id db (mongo-options :datasets-collection) (ObjectId. id))]
+       (if (nil? ds)
+         (throw+ {:type ::not-found} (str id " not found"))
+         ds)))
+  ([id db]
+     (validate [id ::ObjectID])
+     (let [conn (connect mongo-options)
+           db (get-db conn db)
+           ds (collection/find-map-by-id db (mongo-options :datasets-collection) (ObjectId. id))]
+       (if (nil? ds)
+         (throw+ {:type ::not-found} (str id " not found"))
+         ds))))
+
+(defn find-dataset
+  "Fetch a dataset by tags"
+  [& args]
   (let [conn (connect mongo-options)
         db (get-db conn (mongo-options :db))
-        ds (collection/find-map-by-id db (mongo-options :datasets-collection) (ObjectId. id))]
-    (if (nil? ds)
-      (throw+ {:type ::not-found} (str id " not found"))
-      ds)))
-
-(comment (defn find-dataset
-           "Fetch a dataset by tags"
-           ))
+        result (collection/find db (mongo-options :datasets-collection) {})]))
 
 (defn delete-dataset
   "Delete a dataset by ID"
-  [id]
-  (validate [id ::ObjectID])
-  (let [conn (connect mongo-options)
-        db (get-db conn (mongo-options :db))
-        ds (get-dataset id)]
-    (if (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
-      ds
-      (throw+ {:type ::failed} "Detete Failed"))))
+  ([id]
+      (validate [id ::ObjectID])
+      (let [conn (connect mongo-options)
+            db (get-db conn (mongo-options :db))
+            ds (get-dataset id)]
+        (if (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
+          ds
+          (throw+ {:type ::failed} "Detete Failed"))))
+  ([id db]
+      (validate [id ::ObjectID])
+      (let [conn (connect mongo-options)
+            ds (get-dataset id db)
+            db (get-db conn db)]
+        (if (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
+          ds
+          (throw+ {:type ::failed} "Detete Failed")))))
