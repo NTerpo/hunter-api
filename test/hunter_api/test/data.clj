@@ -64,3 +64,34 @@
       (is (not (nil? deleted)))))
   (testing "delete with invalid id"
     (is (thrown+? [:type :hunter-api.data/invalid] (delete-dataset "666")))))
+
+(deftest test-find-dataset
+  (testing "finding a dataset with clear arguments"
+    (let [ds1 (create-dataset {:title "foo"
+                               :description "Aupa BO"
+                               :producer "BO"
+                               :temporal-coverage 2001
+                               :spatial-coverage "Eus"
+                               :created "2013-09-18"
+                               :last-modified "2014-09-17"
+                               :uri "http://www.data.eus"
+                               :tags ["population" "survey"]} "hunter-datasets-test")
+          ds2 (create-dataset {:title "bar"
+                               :description "miarritzeko"
+                               :producer "BO"
+                               :temporal-coverage 2004
+                               :spatial-coverage "Eus"
+                               :created "2013-09-18"
+                               :last-modified "2014-09-17"
+                               :uri "http://www.data.eus"
+                               :tags ["population" "survey"]} "hunter-datasets-test")
+          found (find-dataset {:temporal-coverage 2004} "hunter-datasets-test")]
+      (is (= (found :title) (ds2 :title)))
+      (is (= (found :description) (ds2 :description)))
+      (is (= (found :producer) (ds2 :producer)))
+      (is (= (found :temporal-coverage) (ds2 :temporal-coverage)))
+      (is (= (found :spatial-coverage) (ds2 :spatial-coverage)))
+      (is (= (found :created) (ds2 :created)))
+      (is (= (found :last-modified) (ds2 :last-modified)))
+      (is (= (found :uri) (ds2 :uri)))
+      (is (= (found :tags) (ds2 :tags))))))

@@ -5,6 +5,7 @@
             [monger.util :as util]
             [monger.joda-time]
             [monger.json]
+            [monger.conversion :refer [from-db-object]]
             [clj-time.core :as time]
             [validateur.validation :refer [presence-of valid? validation-set]]
             [slingshot.slingshot :refer [throw+]])
@@ -116,13 +117,6 @@
          (throw+ {:type ::not-found} (str id " not found"))
          ds))))
 
-(defn find-dataset
-  "Fetch a dataset by tags"
-  [& args]
-  (let [conn (connect mongo-options)
-        db (get-db conn (mongo-options :db))
-        result (collection/find db (mongo-options :datasets-collection) {})]))
-
 (defn delete-dataset
   "Delete a dataset by ID"
   ([id]
@@ -141,3 +135,20 @@
         (if (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
           ds
           (throw+ {:type ::failed} "Detete Failed")))))
+
+(defn find-dataset
+  "V1. Fetch a dataset by filters and tags. 
+FIXME 
+* si pas de réponse?
+* next step: [tag & args]
+* sort by last-modified"
+  ([args]
+      (let [conn (connect mongo-options)
+            db (get-db conn (mongo-options :db))
+            result (collection/find-maps db (mongo-options :datasets-collection) args)]
+       (get-dataset (.toString ((first result) :_id)) db)))
+  ([args db]
+     (let [conn (connect mongo-options)
+            db2 (get-db conn db)
+            result (collection/find-maps db2 (mongo-options :datasets-collection) args)]
+       (get-dataset (.toString ((first result) :_id)) db))))
