@@ -26,11 +26,11 @@
 
 (defn create-now
   [ds]
-  (assoc ds :created (time/now)))
+  (assoc ds :created-ds (time/now)))
 
 (defn modify-now
   [ds]
-  (assoc ds :modified (time/now)))
+  (assoc ds :modified-ds (time/now)))
 
 ;;; Validation Functions
 
@@ -48,9 +48,16 @@
   [dataset _]
   (if-not (valid? (validation-set
                    (presence-of :_id)
+                   (presence-of :created-ds)
+                   (presence-of :modified-ds)
+                   (presence-of :title)
+                   (presence-of :description)
+                   (presence-of :producer)
+                   (presence-of :temporal-coverage)
+                   (presence-of :spatial-coverage)
                    (presence-of :created)
-                   (presence-of :modified)
-                   (presence-of :date)) dataset)
+                   (presence-of :last-modified)
+                   (presence-of :uri)) dataset)
     (throw+ {:type ::invalid} "Invalid Dataset")))
 
 (defn validate
@@ -100,9 +107,9 @@
       (throw+ {:type ::not-found} (str id " not found"))
       ds)))
 
-(defn find-dataset
-  "Fetch a dataset by tags"
-  )
+(comment (defn find-dataset
+           "Fetch a dataset by tags"
+           ))
 
 (defn delete-dataset
   "Delete a dataset by ID"

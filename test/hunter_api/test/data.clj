@@ -14,14 +14,22 @@
 
 (use-fixtures :once my-test-fixture)
 
+(def valid-dataset {:title "Campagne 2001 de recensements nationaux - Population par sexe, âge, type de ménage et situation du ménage"
+                              :description "Ménages, Population par sexe, âge, type de ménage et situation du ménage"
+                              :producer "Eurostat"
+                              :temporal-coverage 2001
+                              :spatial-coverage "France"
+                              :created "2013-09-18"
+                              :last-modified "2014-09-17"
+                              :uri "http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001"})
+
 (deftest test-validation
   (testing "valid dataset ID"
     (is (nil? (validate ["543e62ab40694721af85ae5f" :hunter-api.data/ObjectID]))))
   (testing "invalid dataset ID"
     (is (thrown+? [:type :hunter-api.data/invalid] (validate ["123456789" :hunter-api.data/ObjectID]))))
   (testing "valid dataset"
-    (is (nil? (validate [(-> {:foo "Bar"
-                              :date 2014}
+    (is (nil? (validate [(-> valid-dataset
                              with-oid
                              modify-now
                              create-now) :hunter-api.data/Dataset]))))
@@ -30,31 +38,19 @@
 
 (deftest test-create-dataset
   (testing "create valid dataset"
-    (let [ds {:foo "Bar"
-              :date 1990
-              :zone "France"
-              :swag 1}
-          created-ds (create-dataset ds "hunter-datasets-test")]
+    (let [created-ds (create-dataset valid-dataset "hunter-datasets-test")]
       (is (map? created-ds))
-      (is (contains? created-ds :_id))
-      (is (contains? created-ds :foo))
-      (is (contains? created-ds :date))
-      (is (contains? created-ds :zone))
-      (is (contains? created-ds :swag))
-      (is (contains? created-ds :created))
-      (is (contains? created-ds :modified))))
+      (is (nil? (validate [created-ds :hunter-api.data/Dataset])))))
   (testing "create invalid dataset"
     (is (thrown+? [:type :hunter-api.data/invalid] (create-dataset {} "hunter-datasets-test")))))
 
 (deftest test-get-dataset
   (testing "get valid dataset"
-    (let [created (create-dataset {:date 2014})
-          ds (get-dataset (.toString (created :_id)))]
+    (let [created-ds (create-dataset valid-dataset)
+          ds (get-dataset (.toString (created-ds :_id)))]
       (is (map? ds))
-      (is (contains? created :_id))
-      (is (contains? created :created))
-      (is (contains? created :date))
-      (is (contains? created :modified))))
+      (is (nil? (validate [ds :hunter-api.data/Dataset])))
+      (is (= (created-ds ds)))))
   (testing "get dataset with invalid id"
     (is (thrown+? [:type :hunter-api.data/invalid] (get-dataset "666"))))
   (testing "get non-existent dataset"
@@ -62,7 +58,7 @@
 
 (deftest test-delete-dataset
   (testing "delete dataset"
-    (let [created (create-dataset {:date 2014})
+    (let [created (create-dataset valid-dataset)
           deleted (delete-dataset (.toString (created :_id)))]
       (is (not (nil? deleted)))))
   (testing "delete with invalid id"
