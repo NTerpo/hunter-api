@@ -57,6 +57,7 @@
                    (presence-of :spatial-coverage)
                    (presence-of :created)
                    (presence-of :last-modified)
+                   (presence-of :tags)
                    (presence-of :uri)) dataset)
     (throw+ {:type ::invalid} "Invalid Dataset")))
 

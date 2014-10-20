@@ -21,7 +21,8 @@
                               :spatial-coverage "France"
                               :created "2013-09-18"
                               :last-modified "2014-09-17"
-                              :uri "http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001"})
+                    :uri "http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001"
+                    :tags ["population" "survey"]})
 
 (deftest test-validation
   (testing "valid dataset ID"
