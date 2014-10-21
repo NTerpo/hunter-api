@@ -27,9 +27,9 @@ Find open data easily and quickier than ever
 ---------------------------
 **$ hunter france population**
 
-title: "Campagne 2001 de recensements nationaux - Population par sexe, âge, type de ménage et situation du ménage" 
+**title**: "Campagne 2001 de recensements nationaux - Population par sexe, âge, type de ménage et situation du ménage" 
 
-description: "Ménages, Population par sexe, âge, type de ménage et situation du ménage
+**description**: "Ménages, Population par sexe, âge, type de ménage et situation du ménage
 Tableau 1 : Données interprétées
 Tableau 2 : Données brutes
 Tableau 3 : Légende de l'indicateur age (Classe d'âge)
@@ -37,23 +37,23 @@ Tableau 4 : Légende de l'indicateur geo (Entité géopolitique (déclarante))
 Tableau 5 : Légende de l'indicateur hhtyp (Type de ménage)
 Tableau 6 : Légende de l'indicateur sex (Sexe)"
 
-producteur: Eurostat
+**producteur**: Eurostat
 
-temporal-coverage: 2001
+**temporal-coverage**: 2001
 
-spacial-coverage: France
+**spacial-coverage**: France
 
-created: 2013-09-18
+**created**: 2013-09-18
 
-last-modified: 2014-09-17
+**last-modified**: 2014-09-17
 
-[get the data](http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001)? (yN)
+[**get the data**](http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001)? (yN)
 
 ---------------------------
 
 ### Rapidité
 
-Peter Thiel: coeur de la VP = 10x meilleur que les concurrents
+Thiel: coeur de la VP = 10x meilleur que les concurrents
 
 => réponse doit être 10x plus rapide qu'une recherche de jeux de données à la main que ce soit sur les sites classiques ou sur les concurrents
 
