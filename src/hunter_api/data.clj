@@ -78,7 +78,7 @@
 ;; Date formatter
 ;;
 
-(def multi-parser (f/formatter (time/default-time-zone) "YYYY-MM-dd" "YYYY/MM/dd"))
+(def multi-parser (f/formatter (time/default-time-zone)  "YYYY-MM-dd" "YYYY/MM/dd"))
 
 (defn date->valid-date
   "transforms date 'YYYY-MM-dd', 'YYYY/MM/dd' ~> #<DateTime YYYY-MM-ddT00:00:00.000+02:00>"

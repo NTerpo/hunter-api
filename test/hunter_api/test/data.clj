@@ -1,6 +1,7 @@
 (ns hunter-api.test.data
   (:require [clojure.test :refer :all]
             [clj-time.core :as time]
+            [clj-time.format :as f]
             [hunter-api.data :refer :all]
             [monger.core :refer [connect get-db]]
             [slingshot.test :refer :all]))
@@ -26,6 +27,25 @@ Population par sexe, âge, type de ménage et situation du ménage"
                     :last-modified "2014-09-17"
                     :uri "http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001"
                     :tags ["population" "survey"]})
+
+(deftest test-date->valid-date
+  (testing "YYYY-MM-dd"
+    (is (= "1937-07-18" (f/unparse multi-parser (date->valid-date "1937-07-18")))))
+  (testing "YYYY/MM/dd"
+    (is (= "1937-07-18" (f/unparse multi-parser (date->valid-date "1937/07/18")))))
+  (testing "invalid date format"
+    (is (thrown? IllegalArgumentException
+                 (f/unparse multi-parser (date->valid-date "19370718"))))))
+
+(deftest test-normalize-dates
+  (testing "with :created and :last-modified"
+    (let [ds (normalize-dates valid-dataset)]
+      (is (= (date->valid-date "2013-09-18") (ds :created)))
+      (is (= (date->valid-date "2014-09-17") (ds :last-modified)))))
+  (testing "without :created and :last-modified"
+    (let [ds (normalize-dates {})]
+      (is (nil? (ds :created)))
+      (is (nil? (ds :last-modified))))))
 
 (deftest test-validation
   (testing "valid dataset ID"
