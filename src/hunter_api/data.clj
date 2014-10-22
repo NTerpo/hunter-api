@@ -7,11 +7,14 @@
             [monger.json]
             [monger.conversion :refer [from-db-object]]
             [clj-time.core :as time]
+            [clj-time.format :as f]
             [validateur.validation :refer [presence-of valid? validation-set]]
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
+;;
 ;;; Database connection details
+;;
 
 (def mongo-options
   {:host "localhost"
@@ -19,7 +22,9 @@
    :db "hunter-datasets"
    :datasets-collection "ds"})
 
+;;
 ;;; Utility Functions
+;;
 
 (defn with-oid
   [ds]
@@ -33,7 +38,9 @@
   [ds]
   (assoc ds :modified-ds (time/now)))
 
+;;
 ;;; Validation Functions
+;;
 
 (defmulti validate* (fn [val val-type] val-type))
 
@@ -67,6 +74,26 @@
   [& tests]
   (doseq [test tests] (apply validate* test)))
 
+;;
+;; Date formatter
+;;
+
+(def multi-parser (f/formatter (time/default-time-zone) "YYYY-MM-dd" "YYYY/MM/dd"))
+
+(defn date->valid-date
+  "transforms date 'YYYY-MM-dd', 'YYYY/MM/dd' ~> #<DateTime YYYY-MM-ddT00:00:00.000+02:00>"
+  [date]
+  (if (nil? date)
+    nil
+    (f/parse multi-parser date)))
+
+(defn normalize-dates
+  "parses a dataset and apply transformation to get normalized dates"
+  [ds]
+  (-> ds
+      (conj {:created (date->valid-date (ds :created))})
+      (conj {:last-modified (date->valid-date (ds :last-modified))})))
+
 ;;; Database Access Functions
 
 (defn create-dataset
@@ -75,7 +102,8 @@
       (let [new-ds (-> ds
                        with-oid
                        modify-now
-                       create-now)
+                       create-now
+                       normalize-dates)
             conn (connect mongo-options)
             db (get-db conn (mongo-options :db))]
         (validate [new-ds ::Dataset])
@@ -88,7 +116,8 @@
      (let [new-ds (-> ds
                        with-oid
                        modify-now
-                       create-now)
+                       create-now
+                       normalize-dates)
             conn (connect mongo-options)
             db (get-db conn db)]
         (validate [new-ds ::Dataset])

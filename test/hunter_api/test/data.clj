@@ -14,13 +14,16 @@
 
 (use-fixtures :once my-test-fixture)
 
-(def valid-dataset {:title "Campagne 2001 de recensements nationaux - Population par sexe, âge, type de ménage et situation du ménage"
-                              :description "Ménages, Population par sexe, âge, type de ménage et situation du ménage"
-                              :producer "Eurostat"
-                              :temporal-coverage 2001
-                              :spatial-coverage "France"
-                              :created "2013-09-18"
-                              :last-modified "2014-09-17"
+(def valid-dataset {:title "Campagne 2001 de recensements nationaux -
+Population par sexe, âge, type de ménage et situation du ménage"
+                    :description "Ménages, Population par
+                              sexe, âge, type de ménage et situation
+                              du ménage"
+                    :producer "Eurostat"
+                    :temporal-coverage "2001"
+                    :spatial-coverage "France"
+                    :created "2013-09-18"
+                    :last-modified "2014-09-17"
                     :uri "http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001"
                     :tags ["population" "survey"]})
 
@@ -70,7 +73,7 @@
     (let [ds1 (create-dataset {:title "foo"
                                :description "Aupa BO"
                                :producer "BO"
-                               :temporal-coverage 2001
+                               :temporal-coverage "2001"
                                :spatial-coverage "Eus"
                                :created "2013-09-18"
                                :last-modified "2014-09-17"
@@ -79,13 +82,13 @@
           ds2 (create-dataset {:title "bar"
                                :description "miarritzeko"
                                :producer "BO"
-                               :temporal-coverage 2004
+                               :temporal-coverage "2004"
                                :spatial-coverage "Eus"
                                :created "2013-09-18"
                                :last-modified "2014-09-17"
                                :uri "http://www.data.eus"
                                :tags ["population" "survey"]} "hunter-datasets-test")
-          found (find-dataset {:temporal-coverage 2004} "hunter-datasets-test")]
+          found (find-dataset {:temporal-coverage "2004"} "hunter-datasets-test")]
       (is (= (found :title) (ds2 :title)))
       (is (= (found :description) (ds2 :description)))
       (is (= (found :producer) (ds2 :producer)))
