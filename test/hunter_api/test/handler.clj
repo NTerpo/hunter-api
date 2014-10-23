@@ -41,3 +41,28 @@
       (is (contains? response-body :last-modified))
       (is (contains? response-body :uri))
       (is (contains? response-body :tags)))))
+
+(deftest test-get-dataset
+  (testing "get valid dataset with valid id"
+    (let [response (api-routes
+                    (-> (mock/request :post "/api/datasets")
+                        (assoc :body valid-dataset)))
+          id (.toString (:_id (response :body)))]
+      (is (= (response :status) 201))
+      (let [response (api-routes (mock/request :get (str "/api/datasets/" id)))
+            response-body (response :body)]
+        (is (= (response :status) 200))
+        (is (map? response-body))
+        (is (contains? response-body :_id))
+      (is (contains? response-body :created-ds))
+      (is (contains? response-body :modified-ds))
+      (is (contains? response-body :title))
+      (is (= (response-body :title) "Campagne 2001 de recensements nationaux"))
+      (is (contains? response-body :description))
+      (is (contains? response-body :producer))
+      (is (contains? response-body :temporal-coverage))
+      (is (contains? response-body :spatial-coverage))
+      (is (contains? response-body :created))
+      (is (contains? response-body :last-modified))
+      (is (contains? response-body :uri))
+      (is (contains? response-body :tags))))))
