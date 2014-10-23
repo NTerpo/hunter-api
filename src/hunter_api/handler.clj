@@ -24,27 +24,29 @@
   "Main client API route definitions"
   (context "/api" []
            (OPTIONS "/" []
-                    (http/options [:options] {:version "0.1.0-SNAPSHOT"}))
+                    (http/options [:options] {:version "0.1.0"}))
            (ANY "/" []
                 (http/method-not-allowed [:options]))
            (context "/datasets" []
-                    (GET "/" []
-                         (http/not-implemented))
+                    (GET "/" [:as req]
+                         (http/ok (data/find-dataset req)))
                     (GET "/:id" [id]
-                         (http/not-implemented))
+                         (http/ok (data/get-dataset id)))
                     (HEAD "/id" [id]
                           (http/not-implemented))
                     (POST "/" [:as req]
-                          (http/not-implemented))
+                          (let [ds (data/create-dataset (req :body))
+                                location (http/url-from req (str (ds :_id)))]
+                            (http/created location ds)))
                     (PUT "/:id" [id]
                          (http/not-implemented))
                     (DELETE "/:id" [id]
-                            (http/not-implemented))
+                            (http/ok (data/delete-dataset id)))
                     (OPTIONS "/" []
                              (http/options [:options :get :head :put :post :delete]))
                     (ANY "/" []
                          (http/method-not-allowed [:options :get :head :put :post :delete]))))
-  (route/not-found "Nothing to see here..."))
+  (route/not-found "Nothing to hunt here..."))
 
 (def app
   "Application entry point and handler chain"
