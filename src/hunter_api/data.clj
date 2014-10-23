@@ -166,22 +166,18 @@
           (throw+ {:type ::failed} "Detete Failed")))))
 
 (defn find-dataset
-  "V1. Fetch a dataset by filters and tags. 
-
-* si pas de réponse?
-* next step: [tag & args]
-* sort by last-modified"
+  "V1. Fetch a dataset by filters and tags. next step: [tag & args]"
   ([args]
       (let [conn (connect mongo-options)
             db (get-db conn (mongo-options :db))
             result (collection/find-maps db (mongo-options :datasets-collection) args)]
        (if (empty? result)
          (throw+ {:type ::not-found} "We've found nothing for your query: as every good hunter... we are still learning")
-         (get-dataset (.toString ((first result) :_id))))))
+         (get-dataset (.toString ((last (sort-by :last-modified result)) :_id))))))
   ([args db]
      (let [conn (connect mongo-options)
             db2 (get-db conn db)
             result (collection/find-maps db2 (mongo-options :datasets-collection) args)]
        (if (empty? result)
          (throw+ {:type ::not-found} "We've found nothing for your query: as every good hunter... we are still learning")
-         (get-dataset (.toString ((first result) :_id)) db)))))
+         (get-dataset (.toString ((last (sort-by :last-modified result)) :_id)) db)))))
