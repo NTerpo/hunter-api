@@ -105,4 +105,7 @@
       (is (= (found :created) (ds2 :created)))
       (is (= (found :last-modified) (ds2 :last-modified)))
       (is (= (found :uri) (ds2 :uri)))
-      (is (= (found :tags) (ds2 :tags))))))
+      (is (= (found :tags) (ds2 :tags)))))
+  (testing "not found dataset"
+    (is (thrown+? [:type :hunter-api.data/not-found]
+                  (find-dataset {:temporal-coverage "666"} "hunter-datasets-test")))))

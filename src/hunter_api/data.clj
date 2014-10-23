@@ -167,7 +167,7 @@
 
 (defn find-dataset
   "V1. Fetch a dataset by filters and tags. 
-FIXME 
+
 * si pas de réponse?
 * next step: [tag & args]
 * sort by last-modified"
@@ -175,9 +175,13 @@ FIXME
       (let [conn (connect mongo-options)
             db (get-db conn (mongo-options :db))
             result (collection/find-maps db (mongo-options :datasets-collection) args)]
-       (get-dataset (.toString ((first result) :_id)) db)))
+       (if (empty? result)
+         (throw+ {:type ::not-found} "We've found nothing for your query: as every good hunter... we are still learning")
+         (get-dataset (.toString ((first result) :_id))))))
   ([args db]
      (let [conn (connect mongo-options)
             db2 (get-db conn db)
             result (collection/find-maps db2 (mongo-options :datasets-collection) args)]
-       (get-dataset (.toString ((first result) :_id)) db))))
+       (if (empty? result)
+         (throw+ {:type ::not-found} "We've found nothing for your query: as every good hunter... we are still learning")
+         (get-dataset (.toString ((first result) :_id)) db)))))
