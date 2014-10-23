@@ -65,4 +65,10 @@
       (is (contains? response-body :created))
       (is (contains? response-body :last-modified))
       (is (contains? response-body :uri))
-      (is (contains? response-body :tags))))))
+      (is (contains? response-body :tags)))))
+  (testing "get with invalid id"
+    (is (thrown+? [:type :hunter-api.data/invalid]
+                  (api-routes (mock/request :get "/api/datasets/666")))))
+  (testing "get non existent dataset"
+    (is (thrown+? [:type :hunter-api.data/not-found]
+                  (api-routes (mock/request :get "/api/datasets/543e62ab40694721af85ae5f"))))))
