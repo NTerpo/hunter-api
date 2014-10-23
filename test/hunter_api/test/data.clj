@@ -3,6 +3,7 @@
             [clj-time.core :as time]
             [clj-time.format :as f]
             [hunter-api.data :refer :all]
+            [hunter-api.test.ds :refer [valid-dataset]]
             [monger.core :refer [connect get-db]]
             [slingshot.test :refer :all]))
 
@@ -14,19 +15,6 @@
   (f))
 
 (use-fixtures :once my-test-fixture)
-
-(def valid-dataset {:title "Campagne 2001 de recensements nationaux -
-Population par sexe, âge, type de ménage et situation du ménage"
-                    :description "Ménages, Population par
-                              sexe, âge, type de ménage et situation
-                              du ménage"
-                    :producer "Eurostat"
-                    :temporal-coverage "2001"
-                    :spatial-coverage "France"
-                    :created "2013-09-18"
-                    :last-modified "2014-09-17"
-                    :uri "http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001"
-                    :tags ["population" "survey"]})
 
 (deftest test-date->valid-date
   (testing "YYYY-MM-dd"

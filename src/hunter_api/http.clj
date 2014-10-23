@@ -43,7 +43,7 @@
   ([url body]
      (-> (response body)
          (status 201)
-         (header "Location" url))))
+         (header "location" url))))
 
 (defn ok
   "Return an HTTP 200 (OK)"

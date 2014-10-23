@@ -64,13 +64,13 @@
 (deftest test-created
   (testing "create with location"
     (let [response (created (url-from (request :post "/api/datasets") "543e62ab40694721af85ae5f"))
-          location (get-in response [:headers "Location"])]
+          location (get-in response [:headers "location"])]
       (is (= (response :status) 201))
       (is (= location "http://localhost:80/api/datasets/543e62ab40694721af85ae5f"))
       (is (nil? (response :body)))))
   (testing "create with location and body"
     (let [response (created (url-from (request :post "/api/datasets") "543e62ab40694721af85ae5f") {:title "test"})
-          location (get-in response [:headers "Location"])
+          location (get-in response [:headers "location"])
           body (response :body)]
       (is (= (response :status) 201))
       (is (= location  "http://localhost:80/api/datasets/543e62ab40694721af85ae5f"))
