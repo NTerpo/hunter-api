@@ -72,3 +72,20 @@
   (testing "get non existent dataset"
     (is (thrown+? [:type :hunter-api.data/not-found]
                   (api-routes (mock/request :get "/api/datasets/543e62ab40694721af85ae5f"))))))
+
+(deftest test-delete-dataset
+  (testing "delete valid dataset"
+    (let [response (api-routes
+                    (-> (mock/request :post "/api/datasets")
+                        (assoc :body valid-dataset)))
+          id (.toString (:_id (response :body)))]
+      (is (= (response :status) 201))
+      (let [response (api-routes (mock/request :delete (str "/api/datasets/" id)))
+            response-body (response :body)]
+        (is (= (response :status) 200)))))
+  (testing "delete dataset with invalid id"
+    (is (thrown+? [:type :hunter-api.data/invalid]
+                  (api-routes (mock/request :delete "/api/datasets/666")))))
+  (testing "delete non existent dataset"
+    (is (thrown+? [:type :hunter-api.data/not-found]
+                  (api-routes (mock/request :delete "/api/datasets/543e62ab40694721af85ae5f"))))))
