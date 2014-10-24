@@ -110,4 +110,5 @@
       (is (= (found-2 :title) (ds1 :title)))))
   (testing "not found dataset"
     (is (thrown+? [:type :hunter-api.data/not-found]
-                  (find-dataset {:temporal-coverage "666"} "hunter-datasets-test")))))
+                  (find-dataset
+                   {:temporal-coverage "666"} "hunter-datasets-test")))))
