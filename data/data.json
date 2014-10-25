@@ -1,0 +1,99 @@
+{:title "Gender Info 2007 - World Population",
+ :description "World Population by countries",
+ :producer "UN Statistics Division",
+ :temporal-coverage "1985 - 2005", 
+ :spatial-coverage "world" "countries",
+ :created "2008-03-21"
+ :last-modified "2008-03-21"
+ :uri "http://data.un.org/Data.aspx?d=GenderStat&f=inID%3a5"
+ :tags ["population", "gender"]}
+
+{:title "Agriculture PIN",
+ :description "3 million time-series and cross sectional data relating to food and agriculture",
+ :producer "FAO",
+ :temporal-coverage "1961 - 2007", 
+ :spatial-coverage "world" "countries",
+ :created "2009-08-25"
+ :last-modified "2008-03-21"
+ :uri "http://data.un.org/Data.aspx?d=FAO&f=itemCode%3a2051"
+ :tags ["agriculture", "production"]}
+
+{:title "Carbon dioxide emissions (CO2)",
+ :description "Carbon dioxide emissions (CO2), thousand metric tons of CO2 (CDIAC)",
+ :producer "UN Statistics Division",
+ :temporal-coverage "1990 - 2010", 
+ :spatial-coverage "world" "countries",
+ :created "2014-08-15"
+ :last-modified "2014-08-15"
+ :uri "http://data.un.org/Data.aspx?d=MDG&f=seriesRowID%3a749",
+ :tags ["co2", "polution", "environment", "carbon dioxyde"]}
+
+{:title "Total Electricity consumption",
+ :description "Total electricity consumption",
+ :producer "UN Statistics Division",
+ :temporal-coverage "1990 - 2011", 
+ :spatial-coverage "world" "countries",
+ :created "2014-10-14"
+ :last-modified "2014-10-14"
+ :uri "http://data.un.org/Data.aspx?d=EDATA&f=cmID%3aEL%3btrID%3a12",
+ :tags ["electricity", "energy", "consumption"]}
+
+{:title "Homicide",
+ :description "Intentional homicide, number and rate per 100,000 population",
+ :producer "UN Office on Drugs and Crime",
+ :temporal-coverage "1995 - 2011", 
+ :spatial-coverage "world" "countries",
+ :created "2014-08-01"
+ :last-modified "2014-08-01"
+ :uri "http://data.un.org/Data.aspx?d=UNODC&f=tableCode%3a1",
+ :tags ["crime", "homicide"]}
+
+{:title "GDB (current US$)",
+ :description "GDB (current US$)",
+ :producer "World Bank",
+ :temporal-coverage "1960 - 2012", 
+ :spatial-coverage "world" "countries",
+ :created "2014-06-09"
+ :last-modified "2014-06-09"
+ :uri "http://data.un.org/Data.aspx?d=WDI&f=Indicator_Code%3aNY.GDP.MKTP.CD",
+ :tags ["indicator", "economy"]}
+
+{:title "Beer",
+ :description "Production of beer by countries",
+ :producer "UN Statistics Division",
+ :temporal-coverage "1995 - 2010", 
+ :spatial-coverage "world" "countries",
+ :created "2014-01-09"
+ :last-modified "2014-01-09"
+ :uri "http://data.un.org/Data.aspx?d=ICS&f=cmID%3a24310-0",
+ :tags ["beer", "alcool", "production"]}
+
+{:title "Cigarettes containing tobacco",
+ :description "Production of cigarettes by countries",
+ :producer "UN Statistics Division",
+ :temporal-coverage "1995 - 2010", 
+ :spatial-coverage "world" "countries",
+ :created "2014-01-09"
+ :last-modified "2014-01-09"
+ :uri "http://data.un.org/Data.aspx?d=ICS&f=cmID%3a25010-1",
+ :tags ["tobacco", "cigarettes", "production"]}
+
+{:title "Interest rates",
+ :description "Interest rates",
+ :producer "IMF",
+ :temporal-coverage "1948 - 2019", 
+ :spatial-coverage "world" "countries",
+ :created "2014-05-14"
+ :last-modified "2014-05-14"
+ :uri "http://data.un.org/Data.aspx?d=IFS&f=SeriesCode%3a60",
+ :tags ["finance", "interest"]}
+
+{:title "Balance of payments - current account",
+ :description "Balance of payments - current account",
+ :producer "IMF",
+ :temporal-coverage "1948 - 2019", 
+ :spatial-coverage "world" "countries",
+ :created "2014-05-14"
+ :last-modified "2014-05-14"
+ :uri "http://data.un.org/Data.aspx?d=IFS&f=SeriesCode%3a78",
+ :tags ["finance", "balance", "payments"]}
