@@ -2,6 +2,7 @@
   (:require [clojure.test :refer :all]
             [hunter-api.handler :refer :all]
             [hunter-api.test.ds :refer [valid-dataset]]
+            [hunter-api.data :refer [delete-dataset]]
             [ring.mock.request :as mock]
             [slingshot.test :refer :all]))
 
@@ -40,7 +41,8 @@
       (is (contains? response-body :created))
       (is (contains? response-body :last-modified))
       (is (contains? response-body :uri))
-      (is (contains? response-body :tags)))))
+      (is (contains? response-body :tags))
+      (delete-dataset (.toString (response-body :_id)) api-db))))
 
 (deftest test-get-dataset
   (testing "get valid dataset with valid id"
@@ -54,18 +56,19 @@
         (is (= (response :status) 200))
         (is (map? response-body))
         (is (contains? response-body :_id))
-      (is (contains? response-body :created-ds))
-      (is (contains? response-body :modified-ds))
-      (is (contains? response-body :title))
-      (is (= (response-body :title) "test"))
-      (is (contains? response-body :description))
-      (is (contains? response-body :producer))
-      (is (contains? response-body :temporal-coverage))
-      (is (contains? response-body :spatial-coverage))
-      (is (contains? response-body :created))
-      (is (contains? response-body :last-modified))
-      (is (contains? response-body :uri))
-      (is (contains? response-body :tags)))))
+        (is (contains? response-body :created-ds))
+        (is (contains? response-body :modified-ds))
+        (is (contains? response-body :title))
+        (is (= (response-body :title) "test"))
+        (is (contains? response-body :description))
+        (is (contains? response-body :producer))
+        (is (contains? response-body :temporal-coverage))
+        (is (contains? response-body :spatial-coverage))
+        (is (contains? response-body :created))
+        (is (contains? response-body :last-modified))
+        (is (contains? response-body :uri))
+        (is (contains? response-body :tags)))
+      (delete-dataset id api-db)))
   (testing "get with invalid id"
     (is (thrown+? [:type :hunter-api.data/invalid]
                   (api-routes (mock/request :get "/api/datasets/666")))))
@@ -89,3 +92,4 @@
   (testing "delete non existent dataset"
     (is (thrown+? [:type :hunter-api.data/not-found]
                   (api-routes (mock/request :delete "/api/datasets/543e62ab40694721af85ae5f"))))))
+
