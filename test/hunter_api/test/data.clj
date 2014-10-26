@@ -25,8 +25,7 @@
       (is (= (date->valid-date "0666-01-02") (ds :last-modified)))))
   (testing "without :created and :last-modified"
     (let [ds (normalize-dates {})]
-      (is (nil? (ds :created)))
-      (is (nil? (ds :last-modified))))))
+      (is (empty? ds)))))
 
 (deftest test-validation
   (testing "valid dataset ID"

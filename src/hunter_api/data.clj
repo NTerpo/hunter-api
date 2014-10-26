@@ -90,12 +90,15 @@
 (defn normalize-dates
   "parses a dataset and apply transformation to get normalized dates"
   [ds]
-  (-> ds
-      (conj {:created (date->valid-date (ds :created))})
-      (conj {:last-modified (date->valid-date (ds :last-modified))})))
+  (if (and (contains? ds :created)
+           (contains? ds :last-modified))
+    (-> ds
+        (conj {:created (date->valid-date (ds :created))})
+        (conj {:last-modified (date->valid-date (ds :last-modified))}))
+    ds))
 
 ;;
-;;; Database Access Functions
+;; Database Access Functions
 ;;
 
 (defn create-dataset
