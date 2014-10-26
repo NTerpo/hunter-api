@@ -20,6 +20,8 @@
             [ring.middleware.format-response :refer [wrap-restful-response]]
             [ring.middleware.json :refer [wrap-json-body]]))
 
+(def api-db "hunter-datasets")
+
 (defroutes api-routes
   "Main client API route definitions"
   (context "/api" []
@@ -29,19 +31,19 @@
                 (http/method-not-allowed [:options]))
            (context "/datasets" []
                     (GET "/" [:as req]
-                         (http/ok (data/find-dataset req)))
+                         (http/ok (data/find-dataset req api-db)))
                     (GET "/:id" [id]
-                         (http/ok (data/get-dataset id)))
+                         (http/ok (data/get-dataset id api-db)))
                     (HEAD "/id" [id]
                           (http/not-implemented))
                     (POST "/" [:as req]
-                          (let [ds (data/create-dataset (req :body))
+                          (let [ds (data/create-dataset (req :body) api-db)
                                 location (http/url-from req (str (ds :_id)))]
                             (http/created location ds)))
                     (PUT "/:id" [id]
                          (http/not-implemented))
                     (DELETE "/:id" [id]
-                            (http/ok (data/delete-dataset id)))
+                            (http/ok (data/delete-dataset id api-db)))
                     (OPTIONS "/" []
                              (http/options [:options :get :head :put :post :delete]))
                     (ANY "/" []

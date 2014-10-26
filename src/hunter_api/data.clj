@@ -94,90 +94,55 @@
       (conj {:created (date->valid-date (ds :created))})
       (conj {:last-modified (date->valid-date (ds :last-modified))})))
 
+;;
 ;;; Database Access Functions
+;;
 
 (defn create-dataset
   "Insert a dataset into the database"
-  ([ds]
-      (let [new-ds (-> ds
-                       with-oid
-                       modify-now
-                       create-now
-                       normalize-dates)
-            conn (connect mongo-options)
-            db (get-db conn (mongo-options :db))]
-        (validate [new-ds ::Dataset])
-        (if (ok? (collection/insert db
-                                    (mongo-options :datasets-collection)
-                                    new-ds))
-          new-ds
-          (throw+ {:type ::failed} "Create Failed"))))
-  ([ds db]
-     (let [new-ds (-> ds
-                       with-oid
-                       modify-now
-                       create-now
-                       normalize-dates)
-            conn (connect mongo-options)
-            db (get-db conn db)]
-        (validate [new-ds ::Dataset])
-        (if (ok? (collection/insert db
-                                    (mongo-options :datasets-collection)
-                                    new-ds))
-          new-ds
-          (throw+ {:type ::failed} "Create Failed")))))
+  [ds db]
+  (let [new-ds (-> ds
+                   with-oid
+                   modify-now
+                   create-now
+                   normalize-dates)
+        conn (connect mongo-options)
+        db (get-db conn db)]
+    (validate [new-ds ::Dataset])
+    (if (ok? (collection/insert db
+                                (mongo-options :datasets-collection)
+                                new-ds))
+      new-ds
+      (throw+ {:type ::failed} "Create Failed"))))
 
 (defn get-dataset
   "Fetch a dataset by ID"
-  ([id]
-     (validate [id ::ObjectID])
-     (let [conn (connect mongo-options)
-           db (get-db conn (mongo-options :db))
-           ds (collection/find-map-by-id db (mongo-options :datasets-collection) (ObjectId. id))]
-       (if (nil? ds)
-         (throw+ {:type ::not-found} (str id " not found"))
-         ds)))
-  ([id db]
-     (validate [id ::ObjectID])
-     (let [conn (connect mongo-options)
-           db (get-db conn db)
-           ds (collection/find-map-by-id db (mongo-options :datasets-collection) (ObjectId. id))]
-       (if (nil? ds)
-         (throw+ {:type ::not-found} (str id " not found"))
-         ds))))
+  [id db]
+  (validate [id ::ObjectID])
+  (let [conn (connect mongo-options)
+        db (get-db conn db)
+        ds (collection/find-map-by-id db (mongo-options :datasets-collection) (ObjectId. id))]
+    (if (nil? ds)
+      (throw+ {:type ::not-found} (str id " not found"))
+      ds)))
 
 (defn delete-dataset
   "Delete a dataset by ID"
-  ([id]
-      (validate [id ::ObjectID])
-      (let [conn (connect mongo-options)
-            db (get-db conn (mongo-options :db))
-            ds (get-dataset id)]
-        (if (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
-          ds
-          (throw+ {:type ::failed} "Detete Failed"))))
-  ([id db]
-      (validate [id ::ObjectID])
-      (let [conn (connect mongo-options)
-            ds (get-dataset id db)
-            db (get-db conn db)]
-        (if (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
-          ds
-          (throw+ {:type ::failed} "Detete Failed")))))
+  [id db]
+  (validate [id ::ObjectID])
+  (let [conn (connect mongo-options)
+        ds (get-dataset id db)
+        db (get-db conn db)]
+    (if (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
+      ds
+      (throw+ {:type ::failed} "Detete Failed"))))
 
 (defn find-dataset
   "V1. Fetch a dataset by filters and tags. next step: [tag & args]"
-  ([args]
-      (let [conn (connect mongo-options)
-            db (get-db conn (mongo-options :db))
-            result (collection/find-maps db (mongo-options :datasets-collection) args)]
-       (if (empty? result)
-         (throw+ {:type ::not-found} "We've found nothing for your query: as every good hunter... we are still learning")
-         (get-dataset (.toString ((last (sort-by :last-modified result)) :_id))))))
-  ([args db]
-     (let [conn (connect mongo-options)
-            db2 (get-db conn db)
-            result (collection/find-maps db2 (mongo-options :datasets-collection) args)]
-       (if (empty? result)
-         (throw+ {:type ::not-found} "We've found nothing for your query: as every good hunter... we are still learning")
-         (get-dataset (.toString ((last (sort-by :last-modified result)) :_id)) db)))))
+  [args db]
+  (let [conn (connect mongo-options)
+        db2 (get-db conn db)
+        result (collection/find-maps db2 (mongo-options :datasets-collection) args)]
+    (if (empty? result)
+      (throw+ {:type ::not-found} "We've found nothing for your query: as every good hunter... we are still learning")
+      (get-dataset (.toString ((last (sort-by :last-modified result)) :_id)) db))))
