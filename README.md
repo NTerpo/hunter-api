@@ -10,9 +10,15 @@ You will need [Leiningen][1] 1.7.0 or above installed.
 
 ## Running
 
+### app
 To start a web server for the application, run:
 
     lein ring server
+
+### API doc
+
+* `$ cd doc/`
+* [launch a server](https://www.npmjs.org/package/http-server)
 
 ## License
 
