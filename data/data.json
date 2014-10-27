@@ -97,3 +97,105 @@
  :last-modified "2014-05-14"
  :uri "http://data.un.org/Data.aspx?d=IFS&f=SeriesCode%3a78",
  :tags ["finance", "balance", "payments"]}
+
+-----------------------------------
+
+{:title "DGT-Translation Memory",
+ :description "DGT-TM is a translation memory (sentences and their manually produced translations) in 24 languages. It contains segments from the Acquis Communautaire, the body of European legislation, comprising all the treaties, regulations and directives adopted by the European Union (EU). Since each new country joining the EU is required to accept the whole Acquis Communautaire, this body of legislation has been translated into 24 official languages. For the 23rd official EU language, Irish, the Acquis is not translated on a regular basis; which is why DGT-TM includes only a small amount of data in Irish. The 2014 release of DGT-TM brought the translations for the 24th official language Croatian.",
+ :producer "Directorate-General for Translation",
+ :temporal-coverage "2004-2013", 
+ :spatial-coverage "europe",
+ :created "2013-01-17",
+ :last-modified "2014-09-26",
+ :uri "http://open-data.europa.eu/en/data/dataset/dgt-translation-memory",
+ :tags ["corpus", "language-application", "language-technology", "tmx", "translation-memory"]}
+
+{:title "Elevation map of Europe",
+ :description "The map is made using the global digital elevation model (DEM) derived from GTOPO30. Note that the values in the file are not the original elevation data. The data has been processed to create an image for presentation purposes streching a predefined colour template over the derived values.",
+ :producer "European Environment Agency ",
+ :temporal-coverage "all", 
+ :spatial-coverage ["europe","Austria", "Albania", "France", "Belgium", "Liechtenstein", "Latvia", "Georgia", "Slovakia", "Switzerland", "United Kingdom", "Bulgaria", "Netherlands", "Croatia", "Sweden", "Montenegro", "Moldova", "Poland", "Germany", "Italy", "Estonia", "Portugal", "Norway", "Iceland", "Hungary", "Serbia", "Romania", "Lithuania", "Bosnia and Herzegovina", "Belarus", "Greece", "Luxembourg", "Slovenia", "Malta", "Russia", "Turkey", "Armenia", "Finland", "Spain", "Ireland", "Czech Republic", "Ukraine", "Cyprus", "Denmark"],
+ :created "2004-01-14"
+ :last-modified "2011-08-02"
+ :uri "http://www.eea.europa.eu/data-and-maps/data/digital-elevation-model-of-europe",
+ :tags ["EEA owned data sets", "elevation", "geospatial data", "raster data"]}
+
+{:title "Total length of railway lines",
+ :description "The collection is based on data from the United Nations Economic Commission for Europe / International Transport Forum / Eurostat Common Questionnaire for Inland Transport Statistics. The Common Questionnaire is not supported by a legal act, but is based on a gentlemen's agreement with the participating countries. Data displayed in this table cover the length of railway lines, whether electrified or not, on the territory of the reporting country. Railway lines are defined as a line of communication made up by rail exclusively for the use of railway vehicles. They consist of one or more adjacent running tracks forming a route between two points. Where a section of network comprises two or more lines running alongside one another, there are as many lines as routes to which tracks are allotted exclusively.",
+ :producer "Eurostat",
+ :temporal-coverage "2001-2012", 
+ :spatial-coverage "europe",
+ :created "2012-12-12",
+ :last-modified "2014-10-23",
+ :uri "http://ec.europa.eu/eurostat/product?code=ttr00003",
+ :tags ["railway", "train", "transport"]}
+
+{:title "% of persons employed with ICT user skills",
+ :description "% of persons employed with ICT user skills",
+ :producer "Eurostat",
+ :temporal-coverage "", 
+ :spatial-coverage "",
+ :created "2012-12-12",
+ :last-modified "2014-10-23",
+ :uri "http://ec.europa.eu/eurostat/product?code=isoc_ic_biski",
+ :tags ["employment", "ict", "tech"]}
+
+{:title "",
+ :description "",
+ :producer "",
+ :temporal-coverage "", 
+ :spatial-coverage "",
+ :created ""
+ :last-modified ""
+ :uri "",
+ :tags ["", ""]}
+
+{:title "",
+ :description "",
+ :producer "",
+ :temporal-coverage "", 
+ :spatial-coverage "",
+ :created ""
+ :last-modified ""
+ :uri "",
+ :tags ["", ""]}
+
+{:title "",
+ :description "",
+ :producer "",
+ :temporal-coverage "", 
+ :spatial-coverage "",
+ :created ""
+ :last-modified ""
+ :uri "",
+ :tags ["", ""]}
+
+{:title "",
+ :description "",
+ :producer "",
+ :temporal-coverage "", 
+ :spatial-coverage "",
+ :created ""
+ :last-modified ""
+ :uri "",
+ :tags ["", ""]}
+
+{:title "",
+ :description "",
+ :producer "",
+ :temporal-coverage "", 
+ :spatial-coverage "",
+ :created ""
+ :last-modified ""
+ :uri "",
+ :tags ["", ""]}
+
+{:title "",
+ :description "",
+ :producer "",
+ :temporal-coverage "", 
+ :spatial-coverage "",
+ :created ""
+ :last-modified ""
+ :uri "",
+ :tags ["", ""]}

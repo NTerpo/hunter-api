@@ -30,6 +30,8 @@
            (ANY "/" []
                 (http/method-not-allowed [:options]))
            (context "/datasets" []
+                    (GET "/" []
+                         (http/not-implemented))
                     (GET "/" [:as req]
                          (http/ok (data/find-dataset req api-db)))
                     (GET "/:id" [id]
