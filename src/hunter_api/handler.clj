@@ -31,10 +31,12 @@
            (ANY "/" []
                 (http/method-not-allowed [:options]))
            (context "/datasets" []
-                    ;; (GET "/" []
-                    ;;      (http/not-implemented))
                     (GET "/" [:as req]
-                         (http/ok (data/find-dataset (req :body) api-db)))
+                         (if (nil? (req :query-string))
+                           (http/not-implemented)
+                           (http/ok (data/find-dataset
+                                     (util/query-string->hashmap (req :query-string))
+                                     api-db))))
                     (GET "/:id" [id]
                          (http/ok (data/get-dataset id api-db)))
                     (HEAD "/id" [id]
