@@ -2,7 +2,7 @@
  :description "World Population by countries",
  :producer "UN Statistics Division",
  :temporal-coverage "1985 - 2005", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2008-03-21"
  :last-modified "2008-03-21"
  :uri "http://data.un.org/Data.aspx?d=GenderStat&f=inID%3a5"
@@ -12,7 +12,7 @@
  :description "3 million time-series and cross sectional data relating to food and agriculture",
  :producer "FAO",
  :temporal-coverage "1961 - 2007", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2009-08-25"
  :last-modified "2008-03-21"
  :uri "http://data.un.org/Data.aspx?d=FAO&f=itemCode%3a2051"
@@ -22,7 +22,7 @@
  :description "Carbon dioxide emissions (CO2), thousand metric tons of CO2 (CDIAC)",
  :producer "UN Statistics Division",
  :temporal-coverage "1990 - 2010", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2014-08-15"
  :last-modified "2014-08-15"
  :uri "http://data.un.org/Data.aspx?d=MDG&f=seriesRowID%3a749",
@@ -32,7 +32,7 @@
  :description "Total electricity consumption",
  :producer "UN Statistics Division",
  :temporal-coverage "1990 - 2011", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2014-10-14"
  :last-modified "2014-10-14"
  :uri "http://data.un.org/Data.aspx?d=EDATA&f=cmID%3aEL%3btrID%3a12",
@@ -42,7 +42,7 @@
  :description "Intentional homicide, number and rate per 100,000 population",
  :producer "UN Office on Drugs and Crime",
  :temporal-coverage "1995 - 2011", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2014-08-01"
  :last-modified "2014-08-01"
  :uri "http://data.un.org/Data.aspx?d=UNODC&f=tableCode%3a1",
@@ -52,7 +52,7 @@
  :description "GDB (current US$)",
  :producer "World Bank",
  :temporal-coverage "1960 - 2012", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2014-06-09"
  :last-modified "2014-06-09"
  :uri "http://data.un.org/Data.aspx?d=WDI&f=Indicator_Code%3aNY.GDP.MKTP.CD",
@@ -62,7 +62,7 @@
  :description "Production of beer by countries",
  :producer "UN Statistics Division",
  :temporal-coverage "1995 - 2010", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2014-01-09"
  :last-modified "2014-01-09"
  :uri "http://data.un.org/Data.aspx?d=ICS&f=cmID%3a24310-0",
@@ -72,7 +72,7 @@
  :description "Production of cigarettes by countries",
  :producer "UN Statistics Division",
  :temporal-coverage "1995 - 2010", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2014-01-09"
  :last-modified "2014-01-09"
  :uri "http://data.un.org/Data.aspx?d=ICS&f=cmID%3a25010-1",
@@ -82,7 +82,7 @@
  :description "Interest rates",
  :producer "IMF",
  :temporal-coverage "1948 - 2019", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2014-05-14"
  :last-modified "2014-05-14"
  :uri "http://data.un.org/Data.aspx?d=IFS&f=SeriesCode%3a60",
@@ -92,7 +92,7 @@
  :description "Balance of payments - current account",
  :producer "IMF",
  :temporal-coverage "1948 - 2019", 
- :spatial-coverage "world" "countries",
+ :spatial-coverage ["world" "countries"],
  :created "2014-05-14"
  :last-modified "2014-05-14"
  :uri "http://data.un.org/Data.aspx?d=IFS&f=SeriesCode%3a78",
@@ -140,62 +140,62 @@
  :uri "http://ec.europa.eu/eurostat/product?code=isoc_ic_biski",
  :tags ["employment", "ict", "tech"]}
 
-{:title "",
- :description "",
- :producer "",
- :temporal-coverage "", 
- :spatial-coverage "",
- :created ""
- :last-modified ""
- :uri "",
- :tags ["", ""]}
+{:title "CORDIS - EU research projects under FP7 (2007-2013)",
+ :description "This dataset contains projects funded by the European Union under the seventh framework programme for research and technological development (FP7) from 2007 to 2013. Grant information is provided for each project, including reference, acronym, dates, funding, programmes, participant countries, subjects and objectives. A smaller file is also provided without the texts for objectives.",
+ :producer "Publications Office",
+ :temporal-coverage "2007-2013", 
+ :spatial-coverage ["europe", "Anguilla", "Bahrain", "Croatia", "Albania", "Argentina", "Australia", "Bangladesh", "Azerbaijan", "Antigua and Barbuda", "Bahamas", "Andorra", "EU27", "Åland Islands"],
+ :created "2013-12-04",
+ :last-modified "2014-10-08",
+ :uri "https://open-data.europa.eu/en/data/dataset/cordisfp7projects",
+ :tags ["EU", "FP7", "research"]}
 
-{:title "",
- :description "",
- :producer "",
- :temporal-coverage "", 
- :spatial-coverage "",
- :created ""
- :last-modified ""
- :uri "",
- :tags ["", ""]}
+{:title "Generation of waste by sector",
+ :description "Generation of waste by sector",
+ :producer "Eurostat",
+ :temporal-coverage "1990-2013", 
+ :spatial-coverage ["world" "countries"],
+ :created "2012-12-12",
+ :last-modified "2014-10-27",
+ :uri "https://open-data.europa.eu/en/data/dataset/01dGT8h9ByD11ZmYxixlZQ",
+ :tags ["waste", "sector", "environment"]}
 
-{:title "",
- :description "",
- :producer "",
+{:title "Register of Commission documents",
+ :description "Under Article 15 of the Treaty on the Functioning of the European Union, citizens and residents of EU countries have a right of access to the documents of the European Parliament, the Council and the Commission. Regulation (EC) No 1049/2001 on public access to documents from these 3 institutions sets out the general principles governing this right of access and the limits to it. To help citizens exercise this right, the Regulation stipulates that all 3 institutions must make a register of documents available online. This is why the Commission decided to set up a register that would initially contain a number of document types, with a focus on legislative documents: documents with references including COM, C et SEC and other types, including agendas and minutes of Commission meetings",
+ :producer "Secretariat-General",
  :temporal-coverage "", 
  :spatial-coverage "",
- :created ""
- :last-modified ""
- :uri "",
- :tags ["", ""]}
+ :created "2014-07-18",
+ :last-modified "2014-09-29",
+ :uri "https://open-data.europa.eu/en/data/dataset/sg-regdoc",
+ :tags ["administration", "documents"]}
 
-{:title "",
- :description "",
- :producer "",
+{:title "EuroVoc",
+ :description "EuroVoc is a multilingual, multidisciplinary thesaurus covering the activities of the EU",
+ :producer "Publications Office",
  :temporal-coverage "", 
- :spatial-coverage "",
- :created ""
- :last-modified ""
- :uri "",
- :tags ["", ""]}
+ :spatial-coverage "europe",
+ :created "2014-05-26",
+ :last-modified "2014-07-15",
+ :uri "https://open-data.europa.eu/en/data/dataset/eurovoc",
+ :tags ["thesaurus", "EU", "activities"]}
 
-{:title "",
- :description "",
- :producer "",
- :temporal-coverage "", 
- :spatial-coverage "",
- :created ""
- :last-modified ""
- :uri "",
- :tags ["", ""]}
+{:title "Quarterly cross-trade road freight transport by type of transport (1 000 t, Mio Tkm)",
+ :description "Quarterly cross-trade road freight transport by type of transport (1 000 t, Mio Tkm)",
+ :producer "Eurostat",
+ :temporal-coverage "1990-2013", 
+ :spatial-coverage "europe",
+ :created "2012-12-12",
+ :last-modified "2014-10-27",
+ :uri "https://open-data.europa.eu/en/data/dataset/00YYPa7FUadFAd4HH4quTw",
+ :tags ["transport", "cross-trade", "freight"]}
 
-{:title "",
- :description "",
- :producer "",
- :temporal-coverage "", 
- :spatial-coverage "",
- :created ""
- :last-modified ""
- :uri "",
- :tags ["", ""]}
+{:title "Telecommunication services: access to networks (1 000)",
+ :description "Telecommunication services: access to networks (1 000)",
+ :producer "Eurostat",
+ :temporal-coverage "1980-2009", 
+ :spatial-coverage "europe",
+ :created "2012-12-12",
+ :last-modified "2014-10-23",
+ :uri "https://open-data.europa.eu/en/data/dataset/02gHVcf33Ad7fG3MY4jug",
+ :tags ["telecommunication", "telco", "access", "network"]}

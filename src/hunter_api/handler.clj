@@ -17,6 +17,7 @@
                                            wrap-response-logger]]
             [hunter-api.http :as http]
             [hunter-api.data :as data]
+            [hunter-api.util :as util]
             [ring.middleware.format-response :refer [wrap-restful-response]]
             [ring.middleware.json :refer [wrap-json-body]]))
 
@@ -30,10 +31,10 @@
            (ANY "/" []
                 (http/method-not-allowed [:options]))
            (context "/datasets" []
-                    (GET "/" []
-                         (http/not-implemented))
+                    ;; (GET "/" []
+                    ;;      (http/not-implemented))
                     (GET "/" [:as req]
-                         (http/ok (data/find-dataset req api-db)))
+                         (http/ok (data/find-dataset (req :body) api-db)))
                     (GET "/:id" [id]
                          (http/ok (data/get-dataset id api-db)))
                     (HEAD "/id" [id]

@@ -10,7 +10,8 @@
                  [com.novemberain/monger "2.0.0"]
                  [com.novemberain/validateur "2.3.1"]
                  [slingshot "0.10.3"]
-                 [clj-time "0.6.0"]]
+                 [clj-time "0.6.0"]
+                 [org.clojure/data.json "0.2.5"]]
   :plugins [[lein-ring "0.8.12"]
             [codox "0.8.10"]]
   :ring {:handler hunter-api.handler/app}
