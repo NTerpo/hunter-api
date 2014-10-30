@@ -19,11 +19,11 @@
                  (f/unparse multi-parser (date->valid-date "19370718"))))))
 
 (deftest test-normalize-dates
-  (testing "with :created and :last-modified"
+  (testing "with :created and :updated"
     (let [ds (normalize-dates valid-dataset)]
       (is (= (date->valid-date "0666-01-01") (ds :created)))
-      (is (= (date->valid-date "0666-01-02") (ds :last-modified)))))
-  (testing "without :created and :last-modified"
+      (is (= (date->valid-date "0666-01-02") (ds :updated)))))
+  (testing "without :created and :updated"
     (let [ds (normalize-dates {})]
       (is (empty? ds)))))
 
@@ -72,19 +72,19 @@
   (testing "finding a dataset"
     (let [ds1 (create-dataset ds1  api-db-test)
           ds2 (create-dataset  ds2 api-db-test)
-          found (find-dataset {:temporal-coverage "0667"} api-db-test)
-          found-2 (find-dataset {:producer "foo"} api-db-test)]
+          found (find-dataset {:temporal "0667"} api-db-test)
+          found-2 (find-dataset {:publisher "foo"} api-db-test)]
       (is (= (found :title) (ds2 :title)))
       (is (= (found :description) (ds2 :description)))
-      (is (= (found :producer) (ds2 :producer)))
-      (is (= (found :temporal-coverage) (ds2 :temporal-coverage)))
-      (is (= (found :spatial-coverage) (ds2 :spatial-coverage)))
+      (is (= (found :publisher) (ds2 :publisher)))
+      (is (= (found :temporal) (ds2 :temporal)))
+      (is (= (found :spatial) (ds2 :spatial)))
       (is (= (found :created) (ds2 :created)))
-      (is (= (found :last-modified) (ds2 :last-modified)))
+      (is (= (found :updated) (ds2 :updated)))
       (is (= (found :uri) (ds2 :uri)))
       (is (= (found :tags) (ds2 :tags)))
       (is (= (found-2 :title) (ds1 :title)))))
   (testing "not found dataset"
     (is (thrown+? [:type :hunter-api.data/not-found]
                   (find-dataset
-                   {:temporal-coverage "666"} api-db-test)))))
+                   {:temporal "666"} api-db-test)))))

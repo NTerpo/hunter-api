@@ -60,11 +60,11 @@
                    (presence-of :modified-ds)
                    (presence-of :title)
                    (presence-of :description)
-                   (presence-of :producer)
-                   (presence-of :temporal-coverage)
-                   (presence-of :spatial-coverage)
+                   (presence-of :publisher)
+                   (presence-of :temporal)
+                   (presence-of :spatial)
                    (presence-of :created)
-                   (presence-of :last-modified)
+                   (presence-of :updated)
                    (presence-of :tags)
                    (presence-of :uri)) dataset)
     (throw+ {:type ::invalid} "Invalid Dataset")))
@@ -91,10 +91,10 @@
   "parses a dataset and apply transformation to get normalized dates"
   [ds]
   (if (and (contains? ds :created)
-           (contains? ds :last-modified))
+           (contains? ds :updated))
     (-> ds
         (conj {:created (date->valid-date (ds :created))})
-        (conj {:last-modified (date->valid-date (ds :last-modified))}))
+        (conj {:updated (date->valid-date (ds :updated))}))
     ds))
 
 ;;
@@ -148,4 +148,4 @@
         result (collection/find-maps db2 (mongo-options :datasets-collection) args)]
     (if (empty? result)
       (throw+ {:type ::not-found} "We've found nothing for your query: as every good hunter... we are still learning")
-      (get-dataset (.toString ((last (sort-by :last-modified result)) :_id)) db))))
+      (get-dataset (.toString ((last (sort-by :updated result)) :_id)) db))))

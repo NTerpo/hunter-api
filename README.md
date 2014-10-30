@@ -43,15 +43,15 @@ Tableau 4 : Légende de l'indicateur geo (Entité géopolitique (déclarante))
 Tableau 5 : Légende de l'indicateur hhtyp (Type de ménage)
 Tableau 6 : Légende de l'indicateur sex (Sexe)"
 
-**producteur**: Eurostat
+**publisher**: Eurostat
 
-**temporal-coverage**: 2001
+**temporal**: 2001
 
-**spacial-coverage**: France
+**spatial**: France
 
 **created**: 2013-09-18
 
-**last-modified**: 2014-09-17
+**updated**: 2014-09-17
 
 [**get the data**](http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001)? (yN)
 
