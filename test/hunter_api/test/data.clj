@@ -3,7 +3,7 @@
             [clj-time.core :as time]
             [clj-time.format :as f]
             [hunter-api.data :refer :all]
-            [hunter-api.test.ds :refer [valid-dataset]]
+            [hunter-api.test.ds :refer [valid-dataset ds1 ds2]]
             [monger.core :refer [connect get-db]]
             [slingshot.test :refer :all]))
 
@@ -70,24 +70,8 @@
 
 (deftest test-find-dataset
   (testing "finding a dataset"
-    (let [ds1 (create-dataset {:title "test1"
-                               :description "test1"
-                               :producer "foo"
-                               :temporal-coverage "0666"
-                               :spatial-coverage "Bar"
-                               :created "0666-01-01"
-                               :last-modified "0666-01-12"
-                               :uri "http://www.foo.bar"
-                               :tags ["foo" "bar"]} api-db-test)
-          ds2 (create-dataset {:title "test2"
-                               :description "test2"
-                               :producer "foo"
-                               :temporal-coverage "0667"
-                               :spatial-coverage "Bar"
-                               :created "0666-01-03"
-                               :last-modified "0666-01-04"
-                               :uri "http://www.foo.bar"
-                               :tags ["foo" "bar"]} api-db-test)
+    (let [ds1 (create-dataset ds1  api-db-test)
+          ds2 (create-dataset  ds2 api-db-test)
           found (find-dataset {:temporal-coverage "0667"} api-db-test)
           found-2 (find-dataset {:producer "foo"} api-db-test)]
       (is (= (found :title) (ds2 :title)))

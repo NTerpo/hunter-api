@@ -1,7 +1,7 @@
 (ns hunter-api.test.handler
   (:require [clojure.test :refer :all]
             [hunter-api.handler :refer :all]
-            [hunter-api.test.ds :refer [valid-dataset]]
+            [hunter-api.test.ds :refer [valid-dataset ds1 ds2]]
             [hunter-api.data :refer [delete-dataset]]
             [ring.mock.request :as mock]
             [slingshot.test :refer :all]))
@@ -93,3 +93,33 @@
     (is (thrown+? [:type :hunter-api.data/not-found]
                   (api-routes (mock/request :delete "/api/datasets/543e62ab40694721af85ae5f"))))))
 
+(deftest test-find-dataset
+  (testing "finding a dataset"
+    (let [response-1 (api-routes
+                      (-> (mock/request :post "/api/datasets")
+                          (assoc :body ds1)))
+          response-2 (api-routes
+                      (-> (mock/request :post "/api/datasets")
+                          (assoc :body ds2)))
+          id-1 (.toString (:_id (response-1 :body)))
+          id-2 (.toString (:_id (response-2 :body)))]
+      (let [found-1 (api-routes
+                     (mock/request :get "/api/datasets/?description=test2"))
+            found-2 (api-routes
+                     (mock/request :get "/api/datasets/?producer=foo"))]
+        (is (= (found-1 :title) (response-2 :title)))
+        (is (= (found-1 :description) (response-2 :description)))
+        (is (= (found-1 :producer) (response-2 :producer)))
+        (is (= (found-1 :temporal-coverage) (response-2 :temporal-coverage)))
+        (is (= (found-1 :spatial-coverage) (response-2 :spatial-coverage)))
+        (is (= (found-1 :created) (response-2 :created)))
+        (is (= (found-1 :last-modified) (response-2 :last-modified)))
+        (is (= (found-1 :uri) (response-2 :uri)))
+        (is (= (found-1 :tags) (response-2 :tags)))
+        (is (= (found-2 :title) (response-1 :title))))
+      (delete-dataset id-1 api-db)
+      (delete-dataset id-2 api-db)))
+  (testing "not found dataset"
+    (is (thrown+? [:type :hunter-api.data/not-found]
+                  (api-routes
+                   (mock/request :get "/api/datasets/?uri=666"))))))
