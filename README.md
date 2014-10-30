@@ -15,11 +15,6 @@ To start a web server for the application, run:
 
     lein ring server
 
-### API doc
-
-* `$ cd doc/`
-* [launch a server](https://www.npmjs.org/package/http-server)
-
 ## License
 
 Copyright © 2014 Raw Data Hunter - Nicolas Terpolilli
