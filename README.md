@@ -2,6 +2,8 @@
 
 REST API  to handle open datasets meta-data
 
+![screeshot](./doc/images/logo.png)
+
 ## Prerequisites
 
 You will need [Leiningen][1] 1.7.0 or above installed.
