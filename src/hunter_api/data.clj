@@ -111,12 +111,12 @@
                    normalize-dates)
         conn (connect mongo-options)
         db (get-db conn db)]
-    (validate [new-ds ::Dataset])
-    (if (ok? (collection/insert db
-                                (mongo-options :datasets-collection)
-                                new-ds))
-      new-ds
-      (throw+ {:type ::failed} "Create Failed"))))
+    {:pre [(validate [new-ds ::Dataset])
+           (or (ok? (collection/insert db
+                                       (mongo-options :datasets-collection)
+                                       new-ds))
+               (throw+ {:type ::failed} "Create Failed"))]}
+    new-ds))
 
 (defn get-dataset
   "Fetch a dataset by ID"
@@ -125,9 +125,9 @@
   (let [conn (connect mongo-options)
         db (get-db conn db)
         ds (collection/find-map-by-id db (mongo-options :datasets-collection) (ObjectId. id))]
-    (if (nil? ds)
-      (throw+ {:type ::not-found} (str id " not found"))
-      ds)))
+    {:pre [(or (not (nil? ds))
+               (throw+ {:type ::not-found} (str id " not found")))]}
+    ds))
 
 (defn delete-dataset
   "Delete a dataset by ID"
@@ -136,12 +136,12 @@
   (let [conn (connect mongo-options)
         ds (get-dataset id db)
         db (get-db conn db)]
-    (if (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
-      ds
-      (throw+ {:type ::failed} "Detete Failed"))))
+    {:pre [(or (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
+               (throw+ {:type ::failed} "Detete Failed"))]}
+    ds))
 
 (defn find-dataset
-  "Fetch a dataset by tag"
+  "Fetch a dataset by tags"
   [args db]
   (let [conn (connect mongo-options)
         db2 (get-db conn db)
