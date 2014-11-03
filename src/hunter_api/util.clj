@@ -8,5 +8,3 @@
   (into {}
         (map #(str/split % #"=")
              (str/split query-string #"&"))))
-
-
