@@ -3,7 +3,9 @@
             [hunter-api.handler :refer :all]
             [hunter-api.test.ds :refer [valid-dataset ds1 ds2]]
             [hunter-api.data :refer [delete-dataset]]
+            [cheshire.core :refer :all]
             [ring.mock.request :as mock]
+            [clj-http.client :as client]
             [slingshot.test :refer :all]))
 
 (deftest test-api-routes
@@ -19,15 +21,20 @@
       (is (= (response :status) 405))
       (is (nil? (response :body))))))
 
+(defn- json-request
+  [body]
+  (client/post
+   "http://localhost:3000/api/datasets"
+   {:body (generate-string body)
+    :content-type "application/json"}))
+
 (deftest test-create-dataset
   (testing "create a valid dataset"
-    (let [response (api-routes
-                    (-> (mock/request :post "/api/datasets")
-                        (assoc :body valid-dataset)))
-          response-body (response :body)
+    (let [response (json-request valid-dataset)
+          response-body (parse-string (response :body) true)
           response-headers (response :headers)]
       (is (= (response :status) 201))
-      (is (contains? response-headers "location"))
+      (is (contains? response-headers "Location"))
       (is (map? response-body))
       (is (contains? response-body :_id))
       (is (contains? response-body :created-ds))
@@ -42,14 +49,13 @@
       (is (contains? response-body :updated))
       (is (contains? response-body :uri))
       (is (contains? response-body :tags))
-      (delete-dataset (.toString (response-body :_id)) api-db))))
+      (delete-dataset (.toString (response-body :_id)) api-db)
+      )))
 
 (deftest test-get-dataset
   (testing "get valid dataset with valid id"
-    (let [response (api-routes
-                    (-> (mock/request :post "/api/datasets")
-                        (assoc :body valid-dataset)))
-          id (.toString (:_id (response :body)))]
+    (let [response (json-request valid-dataset)
+          id (.toString (:_id (parse-string (response :body) true)))]
       (is (= (response :status) 201))
       (let [response (api-routes (mock/request :get (str "/api/datasets/" id)))
             response-body (response :body)]
@@ -78,10 +84,8 @@
 
 (deftest test-delete-dataset
   (testing "delete valid dataset"
-    (let [response (api-routes
-                    (-> (mock/request :post "/api/datasets")
-                        (assoc :body valid-dataset)))
-          id (.toString (:_id (response :body)))]
+    (let [response (json-request valid-dataset)
+          id (.toString (:_id (parse-string (response :body) true)))]
       (is (= (response :status) 201))
       (let [response (api-routes (mock/request :delete (str "/api/datasets/" id)))
             response-body (response :body)]
@@ -95,14 +99,10 @@
 
 (deftest test-find-dataset
   (testing "finding a dataset"
-    (let [response-1 (api-routes
-                      (-> (mock/request :post "/api/datasets")
-                          (assoc :body ds1)))
-          response-2 (api-routes
-                      (-> (mock/request :post "/api/datasets")
-                          (assoc :body ds2)))
-          id-1 (.toString (:_id (response-1 :body)))
-          id-2 (.toString (:_id (response-2 :body)))]
+    (let [response-1 (json-request ds1)
+          response-2 (json-request ds2)
+          id-1 (.toString (:_id (parse-string (response-1 :body) true)))
+          id-2 (.toString (:_id (parse-string (response-2 :body) true)))]
       (let [found-1 (api-routes
                      (mock/request :get "/api/datasets/?description=test2"))
             found-2 (api-routes

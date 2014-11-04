@@ -18,8 +18,9 @@
             [hunter-api.http :as http]
             [hunter-api.data :as data]
             [hunter-api.util :as util]
+            [cheshire.core :refer :all]
             [ring.middleware.format-response :refer [wrap-restful-response]]
-            [ring.middleware.json :refer [wrap-json-body]]))
+            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]))
 
 (def api-db "hunter-datasets")
 
@@ -41,9 +42,9 @@
                          (http/ok (data/get-dataset id api-db)))
                     (HEAD "/id" [id]
                           (http/not-implemented))
-                    (POST "/" [:as req]
-                          (let [ds (data/create-dataset (req :body) api-db)
-                                location (http/url-from req (str (ds :_id)))]
+                    (POST "/" request 
+                          (let [ds (data/create-dataset (request :body) api-db)
+                                location (http/url-from request (str (ds :_id)))]
                             (http/created location ds)))
                     (PUT "/:id" [id]
                          (http/not-implemented))
@@ -59,8 +60,9 @@
   "Application entry point and handler chain"
   (->
    (handler/api api-routes)
-   (wrap-json-body)
+   (wrap-json-body {:keywords? true})
    (wrap-request-logger)
    (wrap-exception-handler)
    (wrap-response-logger)
+   (wrap-json-response)
    (wrap-restful-response)))

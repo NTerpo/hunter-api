@@ -1,6 +1,7 @@
 (ns hunter-api.util
   (:require [clojure.data.json :as json]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [cheshire.core :refer :all]))
 
 (defn query-string->hashmap
   "Transform a string ~ 'foo=bar&baz=bah' in {\"foo\" \"bar\", \"baz\" \"bah\"}"
