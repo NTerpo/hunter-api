@@ -22,7 +22,7 @@
             [ring.middleware.format-response :refer [wrap-restful-response]]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]))
 
-(def api-db "hunter-datasets")
+(def ^:no-doc api-db "hunter-datasets")
 
 (defroutes api-routes
   "Main client API route definitions"

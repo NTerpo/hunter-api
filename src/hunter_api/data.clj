@@ -16,7 +16,7 @@
 ;;; Database connection details
 ;;
 
-(def mongo-options
+(def ^:no-doc mongo-options
   {:host "localhost"
    :port 27017
    :db "hunter-datasets"
@@ -26,15 +26,15 @@
 ;;; Utility Functions
 ;;
 
-(defn with-oid
+(defn ^:no-doc with-oid
   [ds]
   (assoc ds :_id (util/object-id)))
 
-(defn create-now
+(defn ^:no-doc create-now
   [ds]
   (assoc ds :created-ds (time/now)))
 
-(defn modify-now
+(defn ^:no-doc modify-now
   [ds]
   (assoc ds :modified-ds (time/now)))
 
@@ -42,7 +42,8 @@
 ;;; Validation Functions
 ;;
 
-(defmulti validate* (fn [val val-type] val-type))
+(defmulti ^:no-doc validate*
+  (fn [val val-type] val-type))
 
 (defmethod validate* ::ObjectID
   [id _]
@@ -69,7 +70,7 @@
                    (presence-of :uri)) dataset)
     (throw+ {:type ::invalid} "Invalid Dataset")))
 
-(defn validate
+(defn ^:no-doc validate
   "Execute a sequence of validation tests"
   [& tests]
   (doseq [test tests] (apply validate* test)))
@@ -78,10 +79,17 @@
 ;; Date formatter
 ;;
 
-(def multi-parser (f/formatter (time/default-time-zone)  "YYYY-MM-dd" "YYYY/MM/dd" "YYYY-MM-dd'T'HH:mm:ss.SSSSSS"))
+(def ^:no-doc multi-parser (f/formatter (time/default-time-zone)  "YYYY-MM-dd" "YYYY/MM/dd" "YYYY-MM-dd'T'HH:mm:ss.SSSSSS"))
 
 (defn date->valid-date
-  "transforms date 'YYYY-MM-dd', 'YYYY/MM/dd' ~> #<DateTime YYYY-MM-ddT00:00:00.000+02:00>"
+  "transforms date
+
+* 'YYYY-MM-dd', 
+* 'YYYY/MM/dd', 
+* 'YYYY-MM-dd'T'HH:mm:ss.SSSSSS'
+
+~> #<DateTime YYYY-MM-ddT00:00:00.000+02:00>"
+  {:doc/format :markdown}
   [date]
   (if (nil? date)
     nil
