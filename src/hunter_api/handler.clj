@@ -36,7 +36,8 @@
                          (if (nil? (req :query-string))
                            (http/not-implemented)
                            (http/ok (data/find-dataset
-                                     (util/query-string->hashmap (req :query-string))
+                                     (util/query-string->hashmap
+                                      (req :query-string))
                                      api-db))))
                     (GET "/:id" [id]
                          (http/ok (data/get-dataset id api-db)))

@@ -149,18 +149,7 @@
     ds))
 
 (defn find-dataset
-  "Returns the three most recently updated datasets corresponding to the query"
-  [args db]
-  (let [conn (connect mongo-options)
-        db2 (get-db conn db)
-        result (collection/find-maps db2 (mongo-options :datasets-collection) args)]
-    {:pre [(or (not (empty? result))
-               (throw+ {:type ::not-found} "Not Found"))]}
-    (map #(get-dataset (.toString (% :_id)) db)
-         (take-last 3 (sort-by :updated result)))))
-
-(defn search-dataset
-  "Returns all datasets corresponding to a query"
+  "Returns the datasets corresponding to the query, sorted by updated date"
   [args db]
   (let [conn (connect mongo-options)
         db2 (get-db conn db)
