@@ -72,8 +72,8 @@
   (testing "finding a dataset"
     (let [ds1 (create-dataset ds1  api-db-test)
           ds2 (create-dataset  ds2 api-db-test)
-          found (find-dataset {:temporal "0667"} api-db-test)
-          found-2 (find-dataset {:publisher "foo"} api-db-test)]
+          found (last (find-dataset {:temporal "0667"} api-db-test))
+          found-2 (last (find-dataset {:publisher "foo"} api-db-test))]
       (is (= (found :title) (ds2 :title)))
       (is (= (found :description) (ds2 :description)))
       (is (= (found :publisher) (ds2 :publisher)))
