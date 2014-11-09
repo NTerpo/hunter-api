@@ -1,7 +1,5 @@
 # hunter-api
 
-REST API  to handle open datasets meta-data
-
 ![screeshot](./doc/images/logo.png)
 
 ## Prerequisites
@@ -23,22 +21,16 @@ Copyright © 2014 Raw Data Hunter - Nicolas Terpolilli
 
 # Data Hunter - Value Proposition
 
-Find open data easily and quickier than ever
+Find open data easily and quicker than ever
 
 ## Explication
 
 ---------------------------
 **$ hunter france population**
 
-**title**: "Campagne 2001 de recensements nationaux - Population par sexe, âge, type de ménage et situation du ménage" 
+**title**: "Campagne 2001 de recensements nationaux" 
 
 **description**: "Ménages, Population par sexe, âge, type de ménage et situation du ménage
-Tableau 1 : Données interprétées
-Tableau 2 : Données brutes
-Tableau 3 : Légende de l'indicateur age (Classe d'âge)
-Tableau 4 : Légende de l'indicateur geo (Entité géopolitique (déclarante))
-Tableau 5 : Légende de l'indicateur hhtyp (Type de ménage)
-Tableau 6 : Légende de l'indicateur sex (Sexe)"
 
 **publisher**: Eurostat
 
