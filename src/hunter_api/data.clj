@@ -79,7 +79,7 @@
 ;; Date formatter
 ;;
 
-(def ^:no-doc multi-parser (f/formatter (time/default-time-zone)  "YYYY-MM-dd" "YYYY/MM/dd" "YYYY-MM-dd'T'HH:mm:ss.SSSSSS"))
+(def ^:no-doc multi-parser (f/formatter (time/default-time-zone)  "YYYY-MM-dd" "YYYY/MM/dd" "YYYY-MM-dd'T'HH:mm:ss.SSSSSS" "YYYY-MM-dd'T'HH:mm:ss"))
 
 (defn date->valid-date
   "transforms date
@@ -87,6 +87,7 @@
 * 'YYYY-MM-dd', 
 * 'YYYY/MM/dd', 
 * 'YYYY-MM-dd'T'HH:mm:ss.SSSSSS'
+* 'YYYY-MM-dd'T'HH:mm:ss'
 
 ~> #<DateTime YYYY-MM-ddT00:00:00.000+02:00>"
   {:doc/format :markdown}
@@ -149,7 +150,7 @@
     ds))
 
 (defn find-dataset
-  "Returns the datasets corresponding to the query, sorted by updated date"
+  "Returns the datasets corresponding to the query, sorted by :huntscore and then by updated date"
   [args db]
   (let [conn (connect mongo-options)
         db2 (get-db conn db)
@@ -157,4 +158,4 @@
     {:pre [(or (not (empty? result))
                (throw+ {:type ::not-found} "Not Found"))]}
     (map #(get-dataset (.toString (% :_id)) db)
-         (sort-by :updated result))))
+         (sort-by :huntscore (sort-by :updated result)))))

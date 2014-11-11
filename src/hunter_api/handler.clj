@@ -23,8 +23,6 @@
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]))
 
 (def ^:no-doc api-db "hunter-datasets")
-;; (def ^:no-doc api-db "Hdb-data-gov") ;; for data.gov parsing
-
 
 (defroutes api-routes
   "Main client API route definitions"
