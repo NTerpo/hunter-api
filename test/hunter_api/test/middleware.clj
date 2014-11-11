@@ -6,18 +6,29 @@
 
 (deftest test-wrap-exception-handler
   (testing "General Exception Handling"
-    (let [handler (wrap-exception-handler (fn [req] (throw+ (Exception. "Server Error"))))
+    (let [handler (wrap-exception-handler
+                   (fn [req] (throw+ (Exception. "Server Error"))))
           response (handler (mock/request :get "/api"))]
-      (is (= (response :status) 500))))
+      (is (= 500
+             (response :status)))))
   (testing "Operation Failed Handling"
-    (let [handler (wrap-exception-handler (fn [req] (throw+ {:type :doitnow.data/failed} "500: Failed")))
+    (let [handler (wrap-exception-handler
+                   (fn [req] (throw+ {:type :doitnow.data/failed}
+                                    "500: Failed")))
           response (handler (mock/request :get "/api"))]
-      (is (= (response :status) 500))))
+      (is (= 500
+             (response :status)))))
   (testing "Invalid Handling"
-    (let [handler (wrap-exception-handler (fn [req] (throw+ {:type :doitnow.data/invalid} "400: Bad Request")))
+    (let [handler (wrap-exception-handler
+                   (fn [req] (throw+ {:type :doitnow.data/invalid}
+                                    "400: Bad Request")))
           response (handler (mock/request :get "/api"))]
-      (is (= (response :status) 400))))
+      (is (= 400
+             (response :status)))))
   (testing "Not Found Handling"
-    (let [handler (wrap-exception-handler (fn [req] (throw+ {:type :doitnow.data/not-found} "404: Not Found")))
+    (let [handler (wrap-exception-handler
+                   (fn [req] (throw+ {:type :doitnow.data/not-found}
+                                    "404: Not Found")))
           response (handler (mock/request :get "/api"))]
-      (is (= (response :status) 404)))))
+      (is (= 404
+             (response :status))))))
