@@ -19,6 +19,7 @@
             [hunter-api.data :as data]
             [hunter-api.util :as util]
             [cheshire.core :refer :all]
+            [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.format-response :refer [wrap-restful-response]]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]))
 
@@ -67,3 +68,8 @@
    (wrap-response-logger)
    (wrap-json-response)
    (wrap-restful-response)))
+
+(comment (defn ^:no-doc -main [port]
+           (run-jetty api-routes
+                      {:port (read-string port) :join? false})))
+

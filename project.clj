@@ -12,6 +12,8 @@
                  [slingshot "0.10.3"]
                  [clj-time "0.6.0"]
                  [org.clojure/data.json "0.2.5"]]
+  :main hunter-api.handler
+  :uberjar-name "hunter-api.jar"
   :plugins [[lein-ring "0.8.12"]
             [codox "0.8.10"]]
   :ring {:handler hunter-api.handler/app}

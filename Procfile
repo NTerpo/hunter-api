@@ -1,0 +1,1 @@
+web: java $JVM_OPTS -cp target/hunter-api.jar clojure.main -m hunter-api.handler $PORT
