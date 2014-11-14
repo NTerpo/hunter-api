@@ -1,4 +1,5 @@
 (ns hunter-api.data
+  (:use [clojure.java.io])
   (:require [monger.collection :as collection]
             [monger.core :refer [connect get-db]]
             [monger.result :refer [ok?]]
@@ -12,6 +13,11 @@
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
+(def ^:no-doc config-with-profile
+  (delay (load-file (.getFile (resource "config.clj")))))
+
+(def ^:no-doc config
+  (force config-with-profile))
 ;;
 ;;; Utility Functions
 ;;
@@ -97,13 +103,8 @@
     ds))
 
 ;;
-;; Database Access Functions
+;; Database CRUD Functions
 ;;
-
-(def config {:conn (connect {:host "localhost" :port 27017})
-             :db (get-db (connect {:host "localhost" :port 27017})
-                         "hunter-datasets")
-             :db-name "hunter-datasets"})
 
 (defn create-dataset
   "Insert a dataset into the database"
