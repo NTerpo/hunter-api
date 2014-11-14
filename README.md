@@ -2,6 +2,10 @@
 
 ![screeshot](./doc/images/logo.png)
 
+## Version
+
+0.2.0
+
 ## Prerequisites
 
 You will need [Leiningen][1] 1.7.0 or above installed.

@@ -1,4 +1,4 @@
-(defproject hunter-api "0.1.0"
+(defproject hunter-api "0.2.0"
   :description "REST API to handle open datasets meta-data"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"

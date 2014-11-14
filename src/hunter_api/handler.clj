@@ -27,7 +27,7 @@
   "Main client API route definitions"
   (context "/api" []
            (OPTIONS "/" []
-                    (http/options [:options] {:version "0.1.0"}))
+                    (http/options [:options] {:version "0.2.0"}))
            (ANY "/" []
                 (http/method-not-allowed [:options]))
            (context "/datasets" []
