@@ -13,7 +13,7 @@
 
 
 (defn get-config [] (load-file (.getFile (resource "config.clj"))))
-(def config (get-config))
+(defn config [] (get-config))
 
 ;;
 ;; Validation Functions
@@ -75,8 +75,8 @@
   "Fetch a dataset by ID"
   [id & [alt-db]]
   (validate [id ::ObjectID])
-  (let [conn (config :conn)
-        db (if alt-db (get-db conn alt-db) (config :db))
+  (let [conn ((config) :conn)
+        db (if alt-db (get-db conn alt-db) ((config) :db))
         ds (collection/find-map-by-id db "ds" (ObjectId. id))]
     {:pre [(or (not (nil? ds))
                (throw+ {:type ::not-found} (str id " not found")))]}
@@ -86,11 +86,11 @@
   "Delete a dataset by ID"
   [id & [alt-db]]
   (validate [id ::ObjectID])
-  (let [conn (config :conn)
-        db (if alt-db (get-db conn alt-db) (config :db))
+  (let [conn ((config) :conn)
+        db (if alt-db (get-db conn alt-db) ((config) :db))
         ds (get-dataset id (if alt-db
                              alt-db
-                             (config :db-name)))]
+                             ((config) :db-name)))]
     {:pre [(or (ok? (collection/remove-by-id db "ds" (ObjectId. id)))
                (throw+ {:type ::failed} "Detete Failed"))]}
     ds))
@@ -98,12 +98,12 @@
 (defn find-dataset
   "Returns the datasets corresponding to the query, sorted by :huntscore and then by updated date"
   [args & [alt-db]]
-  (let [conn (config :conn)
-        db (if alt-db (get-db conn alt-db) (config :db))
+  (let [conn ((config) :conn)
+        db (if alt-db (get-db conn alt-db) ((config) :db))
         result (collection/find-maps db "ds" args)]
     {:pre [(or (not (empty? result))
                (throw+ {:type ::not-found} "Not Found"))]}
     (map #(get-dataset (.toString (% :_id)) (if alt-db
                                               alt-db
-                                              (config :db-name)))
+                                              ((config) :db-name)))
          (sort-by :huntscore (sort-by :updated result)))))
