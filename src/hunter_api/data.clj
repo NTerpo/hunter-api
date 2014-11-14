@@ -22,7 +22,7 @@
   (force config-with-profile))
 
 ;;
-;;; Validation Functions
+;; Validation Functions
 ;;
 
 (defmulti ^:no-doc validate*
