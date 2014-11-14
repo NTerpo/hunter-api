@@ -54,7 +54,7 @@
       (is (contains? response-body :updated))
       (is (contains? response-body :uri))
       (is (contains? response-body :tags))
-      (delete-dataset (.toString (response-body :_id)) api-db))))
+      (delete-dataset (.toString (response-body :_id))))))
 
 (deftest test-get-dataset
   (testing "get valid dataset with valid id"
@@ -71,7 +71,7 @@
         (is (contains? response-body :title))
         (is (= "test"
                (response-body :title))))
-      (delete-dataset id api-db)))
+      (delete-dataset id)))
   (testing "get with invalid id"
     (is (thrown+? [:type :hunter-api.data/invalid]
                   (api-routes (mock/request :get "/api/datasets/666")))))
@@ -125,9 +125,9 @@
                (found-2 :title)))
         (is (= (response-1 :title)
                (found-3 :title))))
-      (delete-dataset id-1 api-db)
-      (delete-dataset id-2 api-db)
-      (delete-dataset id-3 api-db)))
+      (delete-dataset id-1)
+      (delete-dataset id-2)
+      (delete-dataset id-3)))
   (testing "not found dataset"
     (is (thrown+? [:type :hunter-api.data/not-found]
                   (api-routes

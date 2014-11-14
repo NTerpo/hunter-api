@@ -23,8 +23,6 @@
             [ring.middleware.format-response :refer [wrap-restful-response]]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]))
 
-(def ^:no-doc api-db "hunter-datasets")
-
 (defroutes api-routes
   "Main client API route definitions"
   (context "/api" []
@@ -38,20 +36,19 @@
                            (http/not-implemented)
                            (http/ok (data/find-dataset
                                      (util/query-string->hashmap
-                                      (req :query-string))
-                                     api-db))))
+                                      (req :query-string))))))
                     (GET "/:id" [id]
-                         (http/ok (data/get-dataset id api-db)))
+                         (http/ok (data/get-dataset id)))
                     (HEAD "/id" [id]
                           (http/not-implemented))
                     (POST "/" request 
-                          (let [ds (data/create-dataset (request :body) api-db)
+                          (let [ds (data/create-dataset (request :body))
                                 location (http/url-from request (str (ds :_id)))]
                             (http/created location ds)))
                     (PUT "/:id" [id]
                          (http/not-implemented))
                     (DELETE "/:id" [id]
-                            (http/ok (data/delete-dataset id api-db)))
+                            (http/ok (data/delete-dataset id)))
                     (OPTIONS "/" []
                              (http/options [:options :get :head :put :post :delete]))
                     (ANY "/" []
@@ -68,8 +65,3 @@
    (wrap-response-logger)
    (wrap-json-response)
    (wrap-restful-response)))
-
-(comment (defn ^:no-doc -main [port]
-           (run-jetty api-routes
-                      {:port (read-string port) :join? false})))
-

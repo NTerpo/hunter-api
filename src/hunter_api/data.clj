@@ -102,7 +102,8 @@
 
 (def config {:conn (connect {:host "localhost" :port 27017})
              :db (get-db (connect {:host "localhost" :port 27017})
-                         "hunter-datasets")})
+                         "hunter-datasets")
+             :db-name "hunter-datasets"})
 
 (defn create-dataset
   "Insert a dataset into the database"
@@ -138,7 +139,7 @@
         db (if alt-db (get-db conn alt-db) (config :db))
         ds (get-dataset id (if alt-db
                              alt-db
-                             (config :db)))]
+                             (config :db-name)))]
     {:pre [(or (ok? (collection/remove-by-id db "ds" (ObjectId. id)))
                (throw+ {:type ::failed} "Detete Failed"))]}
     ds))
@@ -153,5 +154,5 @@
                (throw+ {:type ::not-found} "Not Found"))]}
     (map #(get-dataset (.toString (% :_id)) (if alt-db
                                               alt-db
-                                              (config :db)))
+                                              (config :db-name)))
          (sort-by :huntscore (sort-by :updated result)))))
