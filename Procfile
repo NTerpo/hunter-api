@@ -1,1 +1,1 @@
-web: lein with-profile prod ring server-headless $PORT
+web: lein ring server-headless $PORT
