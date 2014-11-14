@@ -11,9 +11,11 @@
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
+;; MongoDB connection -- depends on profile dev/prod
 
-(defn get-config [] (load-file (.getFile (resource "config.clj"))))
-(defn config [] (get-config))
+(defn ^:no-doc get-config [] (load-file (.getFile (resource "config.clj"))))
+
+(defn ^:no-doc config [] (get-config))
 
 ;;
 ;; Validation Functions
