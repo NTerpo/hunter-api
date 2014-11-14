@@ -13,16 +13,6 @@
   (:import org.bson.types.ObjectId))
 
 ;;
-;;; Database connection details
-;;
-
-(def ^:no-doc mongo-options
-  {:host "localhost"
-   :port 27017
-   :db "hunter-datasets"
-   :datasets-collection "ds"})
-
-;;
 ;;; Utility Functions
 ;;
 
@@ -110,52 +100,58 @@
 ;; Database Access Functions
 ;;
 
+(def config {:conn (connect {:host "localhost" :port 27017})
+             :db (get-db (connect {:host "localhost" :port 27017})
+                         "hunter-datasets")})
+
 (defn create-dataset
   "Insert a dataset into the database"
-  [ds db]
+  [ds & [alt-db]]
   (let [new-ds (-> ds
                    with-oid
                    modify-now
                    create-now
                    normalize-dates)
-        conn (connect mongo-options)
-        db (get-db conn db)]
+        conn (config :conn)
+        db (if alt-db (get-db conn alt-db) (config :db))]
     {:pre [(validate [new-ds ::Dataset])
-           (or (ok? (collection/insert db
-                                       (mongo-options :datasets-collection)
-                                       new-ds))
+           (or (ok? (collection/insert db "ds" new-ds))
                (throw+ {:type ::failed} "Create Failed"))]}
     new-ds))
 
 (defn get-dataset
   "Fetch a dataset by ID"
-  [id db]
+  [id & [alt-db]]
   (validate [id ::ObjectID])
-  (let [conn (connect mongo-options)
-        db (get-db conn db)
-        ds (collection/find-map-by-id db (mongo-options :datasets-collection) (ObjectId. id))]
+  (let [conn (config :conn)
+        db (if alt-db (get-db conn alt-db) (config :db))
+        ds (collection/find-map-by-id db "ds" (ObjectId. id))]
     {:pre [(or (not (nil? ds))
                (throw+ {:type ::not-found} (str id " not found")))]}
     ds))
 
 (defn delete-dataset
   "Delete a dataset by ID"
-  [id db]
+  [id & [alt-db]]
   (validate [id ::ObjectID])
-  (let [conn (connect mongo-options)
-        ds (get-dataset id db)
-        db (get-db conn db)]
-    {:pre [(or (ok? (collection/remove-by-id db (mongo-options :datasets-collection) (ObjectId. id)))
+  (let [conn (config :conn)
+        db (if alt-db (get-db conn alt-db) (config :db))
+        ds (get-dataset id (if alt-db
+                             alt-db
+                             (config :db)))]
+    {:pre [(or (ok? (collection/remove-by-id db "ds" (ObjectId. id)))
                (throw+ {:type ::failed} "Detete Failed"))]}
     ds))
 
 (defn find-dataset
   "Returns the datasets corresponding to the query, sorted by :huntscore and then by updated date"
-  [args db]
-  (let [conn (connect mongo-options)
-        db2 (get-db conn db)
-        result (collection/find-maps db2 (mongo-options :datasets-collection) args)]
+  [args & [alt-db]]
+  (let [conn (config :conn)
+        db (if alt-db (get-db conn alt-db) (config :db))
+        result (collection/find-maps db "ds" args)]
     {:pre [(or (not (empty? result))
                (throw+ {:type ::not-found} "Not Found"))]}
-    (map #(get-dataset (.toString (% :_id)) db)
+    (map #(get-dataset (.toString (% :_id)) (if alt-db
+                                              alt-db
+                                              (config :db)))
          (sort-by :huntscore (sort-by :updated result)))))

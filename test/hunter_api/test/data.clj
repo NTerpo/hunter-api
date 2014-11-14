@@ -79,7 +79,7 @@
 
 (deftest test-find-dataset
   (testing "finding a dataset"
-    (let [ds1 (create-dataset ds1  api-db-test)
+    (let [ds1 (create-dataset ds1 api-db-test)
           ds2 (create-dataset ds2 api-db-test)
           ds3 (create-dataset ds3 api-db-test)
           found (last (find-dataset {:title "test2"} api-db-test))
