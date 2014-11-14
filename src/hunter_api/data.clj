@@ -11,12 +11,10 @@
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
-;;
-;; Get MongoDB connection options depending on the profile
-;;
 
-(defn with-config [] (load-file (.getFile (resource "config.clj"))))
-(def config (with-config))
+(defn get-config [] (load-file (.getFile (resource "config.clj"))))
+(def config (get-config))
+
 ;;
 ;; Validation Functions
 ;;
