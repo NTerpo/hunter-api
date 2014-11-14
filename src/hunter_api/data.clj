@@ -18,8 +18,9 @@
 (def ^:no-doc config-with-profile
   (delay (load-file (.getFile (resource "config.clj")))))
 
-(def ^:no-doc config
-  (force config-with-profile))
+(defn connection []
+  (def ^:no-doc config
+    (force config-with-profile)))
 
 ;;
 ;; Validation Functions
