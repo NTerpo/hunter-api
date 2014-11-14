@@ -2,7 +2,7 @@
   (:require [monger.core :refer [connect-via-uri]]))
 
 (def config
-  (let [uri (System/genenv "MONGOHQ_URL")
+  (let [uri (System/getenv "MONGOHQ_URL")
         {:keys [conn db]} (connect-via-uri uri)]
     {:conn conn
      :db db
