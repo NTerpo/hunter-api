@@ -15,12 +15,7 @@
 ;; Get MongoDB connection options depending on the profile
 ;;
 
-(def ^:no-doc config-with-profile
-  (delay (load-file (.getFile (resource "config.clj")))))
-
-(defn connection []
-  (def ^:no-doc config
-    (force config-with-profile)))
+(def config (load-file (.getFile (resource "config.clj"))))
 
 ;;
 ;; Validation Functions
