@@ -2,6 +2,7 @@
   (:require [clojure.test :refer :all]
             [clj-time.core :as time]
             [clj-time.format :as f]
+            [hunter-api.util :refer :all]
             [hunter-api.data :refer :all]
             [hunter-api.test.ds :refer [valid-dataset ds1 ds2 ds3]]
             [monger.core :refer [connect get-db]]

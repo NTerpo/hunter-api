@@ -3,36 +3,23 @@
   (:require [monger.collection :as collection]
             [monger.core :refer [connect get-db]]
             [monger.result :refer [ok?]]
-            [monger.util :as util]
             [monger.joda-time]
             [monger.json]
             [monger.conversion :refer [from-db-object]]
-            [clj-time.core :as time]
-            [clj-time.format :as f]
+            [hunter-api.util :refer [with-oid create-now modify-now normalize-dates]]
             [validateur.validation :refer [presence-of valid? validation-set]]
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
+
+;;
+;; Get MongoDB connection options depending on the profile
+;;
 
 (def ^:no-doc config-with-profile
   (delay (load-file (.getFile (resource "config.clj")))))
 
 (def ^:no-doc config
   (force config-with-profile))
-;;
-;;; Utility Functions
-;;
-
-(defn ^:no-doc with-oid
-  [ds]
-  (assoc ds :_id (util/object-id)))
-
-(defn ^:no-doc create-now
-  [ds]
-  (assoc ds :created-ds (time/now)))
-
-(defn ^:no-doc modify-now
-  [ds]
-  (assoc ds :modified-ds (time/now)))
 
 ;;
 ;;; Validation Functions
@@ -70,37 +57,6 @@
   "Execute a sequence of validation tests"
   [& tests]
   (doseq [test tests] (apply validate* test)))
-
-;;
-;; Date formatter
-;;
-
-(def ^:no-doc multi-parser (f/formatter (time/default-time-zone)  "YYYY-MM-dd" "YYYY/MM/dd" "YYYY-MM-dd'T'HH:mm:ss.SSSSSS" "YYYY-MM-dd'T'HH:mm:ss"))
-
-(defn date->valid-date
-  "transforms date
-
-* 'YYYY-MM-dd', 
-* 'YYYY/MM/dd', 
-* 'YYYY-MM-dd'T'HH:mm:ss.SSSSSS'
-* 'YYYY-MM-dd'T'HH:mm:ss'
-
-~> #<DateTime YYYY-MM-ddT00:00:00.000+02:00>"
-  {:doc/format :markdown}
-  [date]
-  (if (nil? date)
-    nil
-    (f/parse multi-parser date)))
-
-(defn normalize-dates
-  "parses a dataset and apply transformation to get normalized dates"
-  [ds]
-  (if (and (contains? ds :created)
-           (contains? ds :updated))
-    (-> ds
-        (conj {:created (date->valid-date (ds :created))})
-        (conj {:updated (date->valid-date (ds :updated))}))
-    ds))
 
 ;;
 ;; Database CRUD Functions
