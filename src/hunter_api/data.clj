@@ -15,7 +15,7 @@
 ;; Get MongoDB connection options depending on the profile
 ;;
 
-(def config (load-file (.getFile (resource "config.clj"))))
+(defn config [] (load-file (.getFile (resource "config.clj"))))
 
 ;;
 ;; Validation Functions
