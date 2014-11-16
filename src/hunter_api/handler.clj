@@ -68,6 +68,7 @@
    (wrap-restful-response)))
 
 (defn -main [& args]
-  (run-jetty app
-             {:port 3000
-              :configurator #(.setThreadPool % (QueuedThreadPool. 5))}))
+  (let [port (Integer/parseInt (System/getenv "PORT"))]
+    (run-jetty app
+               {:port port
+                :configurator #(.setThreadPool % (QueuedThreadPool. 5))})))
