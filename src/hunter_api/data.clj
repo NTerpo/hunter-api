@@ -1,7 +1,7 @@
 (ns hunter-api.data
   (:use [clojure.java.io])
   (:require [monger.collection :as collection]
-            [monger.core :refer [connect get-db]]
+            [monger.core :refer [connect get-db connect-via-uri]]
             [monger.result :refer [ok?]]
             [monger.joda-time]
             [monger.json]
@@ -11,11 +11,17 @@
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
-;; MongoDB connection -- depends on profile dev/prod
+(def config
+  (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
+    {:conn conn
+     :db db
+     :db-name "app31566584"}))
 
-(def ^:no-doc get-config (load-file (.getFile (resource "config.clj"))))
+(comment;; MongoDB connection -- depends on profile dev/prod
 
-(def ^:no-doc config get-config)
+  (def ^:no-doc get-config (load-file (.getFile (resource "config.clj"))))
+
+  (def ^:no-doc config get-config))
 
 ;;
 ;; Validation Functions
