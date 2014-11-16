@@ -1,5 +1,6 @@
 (ns hunter-api.handler
   (:use ring.util.response)
+  (:import (org.eclipse.jetty.util.thread QueuedThreadPool))
   (:require [compojure.core :refer [ANY
                                     DELETE
                                     GET
@@ -65,3 +66,8 @@
    (wrap-response-logger)
    (wrap-json-response)
    (wrap-restful-response)))
+
+(defn -main [& args]
+  (run-jetty app
+             {:port 3000
+              :configurator #(.setThreadPool % (QueuedThreadPool. 5))}))

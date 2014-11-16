@@ -17,6 +17,10 @@
 
 (defn ^:no-doc config [] (get-config))
 
+(comment (def ^:no-doc get-config (load-file (.getFile (resource "config.clj"))))
+
+         (def ^:no-doc config get-config))
+
 ;;
 ;; Validation Functions
 ;;
@@ -66,8 +70,8 @@
                    modify-now
                    create-now
                    normalize-dates)
-        conn (config :conn)
-        db (if alt-db (get-db conn alt-db) (config :db))]
+        conn ((config) :conn)
+        db (if alt-db (get-db conn alt-db) ((config) :db))]
     {:pre [(validate [new-ds ::Dataset])
            (or (ok? (collection/insert db "ds" new-ds))
                (throw+ {:type ::failed} "Create Failed"))]}

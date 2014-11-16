@@ -6,6 +6,7 @@
                  [compojure "1.1.9"]
                  [ring-middleware-format "0.4.0"]
                  [ring/ring-json "0.3.1"]
+                 [ring/ring-jetty-adapter "1.3.1"]
                  [com.taoensso/timbre "3.1.6"]
                  [com.novemberain/monger "2.0.0"]
                  [com.novemberain/validateur "2.3.1"]
