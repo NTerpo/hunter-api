@@ -17,12 +17,6 @@
      :db db
      :db-name "app31566584"}))
 
-(comment;; MongoDB connection -- depends on profile dev/prod
-
-  (def ^:no-doc get-config (load-file (.getFile (resource "config.clj"))))
-
-  (def ^:no-doc config get-config))
-
 ;;
 ;; Validation Functions
 ;;

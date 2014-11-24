@@ -49,7 +49,9 @@
                     (PUT "/:id" [id]
                          (http/not-implemented))
                     (DELETE "/:id" [id]
-                            (http/ok (data/delete-dataset id)))
+                            ;; (http/ok (data/delete-dataset id))
+                            (http/not-implemented)
+                            )
                     (OPTIONS "/" []
                              (http/options [:options :get :head :put :post :delete]))
                     (ANY "/" []
