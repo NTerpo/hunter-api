@@ -11,10 +11,10 @@
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
-(comment (def config
-           {:conn (connect {:host "localhost" :port 27017})
-            :db (get-db (connect {:host "localhost" :port 27017}) "hunter-datasets")
-            :db-name "hunter-datasets"}))
+(comment  (def config
+            {:conn (connect {:host "localhost" :port 27017})
+             :db (get-db (connect {:host "localhost" :port 27017}) "europa-open-data")
+             :db-name "europa-open-data"}))
 
 (def config
   (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
