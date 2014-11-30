@@ -1,6 +1,6 @@
 # hunter-api
 
-![screeshot](./doc/images/logo.png)
+![screenshot](./doc/images/logo.png)
 
 ## Version
 
@@ -27,28 +27,9 @@ Copyright © 2014 Raw Data Hunter - Nicolas Terpolilli
 
 Find open data easily and quicker than ever
 
-## Explication
+## Usage
 
----------------------------
-**$ hunter france population**
-
-**title**: "Campagne 2001 de recensements nationaux" 
-
-**description**: "Ménages, Population par sexe, âge, type de ménage et situation du ménage
-
-**publisher**: Eurostat
-
-**temporal**: 2001
-
-**spatial**: France
-
-**created**: 2013-09-18
-
-**updated**: 2014-09-17
-
-[**get the data**](http://www.data-publica.com/opendata/9980--campagne-2001-de-recensements-nationaux-population-par-sexe-age-type-de-menage-et-situation-du-menage-2001)? (yN)
-
----------------------------
+![usage](./doc/images/hunter.gif)
 
 ### Rapidité
 
