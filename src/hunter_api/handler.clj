@@ -55,6 +55,11 @@
                     (OPTIONS "/" []
                              (http/options [:options :get :head :put :post :delete]))
                     (ANY "/" []
+                         (http/method-not-allowed [:options :get :head :put :post :delete])))
+           (context "/healthcheck" []
+                    (GET "/" []
+                         (http/ok {}))
+                    (ANY "/" []
                          (http/method-not-allowed [:options :get :head :put :post :delete]))))
   (route/not-found "Nothing to hunt here..."))
 
