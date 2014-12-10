@@ -109,7 +109,8 @@
   [args new-args & [alt-db]]
   (let [conn (config :conn)
         db (if alt-db (get-db conn alt-db) (config :db))
-        ds-to-update (collection/find-maps db "ds" args)]
+        ds-to-update (collection/find-maps db "ds" args)
+        new-args (-> new-args modify-now normalize-dates)]
     {:pre [(or (>= 1 (count ds-to-update))
                (throw+ {:type ::invalid} "The given arguments are not sufficient to find only 0 or 1 dataset"))]}
     (collection/update db "ds" args {$set new-args} {:upsert true})))
