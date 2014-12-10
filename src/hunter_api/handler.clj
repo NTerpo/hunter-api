@@ -46,12 +46,12 @@
                           (let [ds (data/create-dataset (request :body))
                                 location (http/url-from request (str (ds :_id)))]
                             (http/created location ds)))
-                    (PUT "/:id" [id]
+                    (PUT "/" request
+                         ;; (data/update-dataset ((request :body) :args) ((request :body) :new-args))
                          (http/not-implemented))
                     (DELETE "/:id" [id]
                             ;; (http/ok (data/delete-dataset id))
-                            (http/not-implemented)
-                            )
+                            (http/not-implemented))
                     (OPTIONS "/" []
                              (http/options [:options :get :head :put :post :delete]))
                     (ANY "/" []
