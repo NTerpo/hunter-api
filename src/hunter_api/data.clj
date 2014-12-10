@@ -3,6 +3,7 @@
   (:require [monger.collection :as collection]
             [monger.core :refer [connect get-db connect-via-uri]]
             [monger.result :refer [ok?]]
+            [monger.operators :refer [$set]]
             [monger.joda-time]
             [monger.json]
             [monger.conversion :refer [from-db-object]]
@@ -11,16 +12,17 @@
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
-(comment  (def config
-            {:conn (connect {:host "localhost" :port 27017})
-             :db (get-db (connect {:host "localhost" :port 27017}) "europa-open-data")
-             :db-name "europa-open-data"}))
+(comment)
+(def config  ;; used in development
+  {:conn (connect {:host "localhost" :port 27017})
+   :db (get-db (connect {:host "localhost" :port 27017}) "europa-open-data")
+   :db-name "europa-open-data"})
 
-(def config
-  (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
-    {:conn conn
-     :db db
-     :db-name "app31566584"}))
+(comment (def config  ;; used in production
+           (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
+             {:conn conn
+              :db db
+              :db-name "app31566584"})))
 
 ;;
 ;; Validation Functions
@@ -101,6 +103,16 @@
     {:pre [(or (ok? (collection/remove-by-id db "ds" (ObjectId. id)))
                (throw+ {:type ::failed} "Detete Failed"))]}
     ds))
+
+(defn update-dataset
+  "Update or insert the dataset corresponding to the query"
+  [args new-args & [alt-db]]
+  (let [conn (config :conn)
+        db (if alt-db (get-db conn alt-db) (config :db))
+        ds-to-update (collection/find-maps db "ds" args)]
+    {:pre [(or (>= 1 (count ds-to-update))
+               (throw+ {:type ::invalid} "The given arguments are not sufficient to find only 0 or 1 dataset"))]}
+    (collection/update db "ds" args {$set new-args} {:upsert true})))
 
 (defn find-dataset
   "Returns the datasets corresponding to the query, sorted by :huntscore and then by updated date"

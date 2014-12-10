@@ -42,3 +42,20 @@
           :uri "http://www.foo.bar"
           :tags ["foo" "bar"]
           :huntscore 2})
+
+(def alphanumeric "abcdefghijklmnopqrstuvwxyz1234567890")
+
+(defn get-random-title [length]
+  (apply str (repeatedly length #(rand-nth alphanumeric))))
+
+(defn ds-rand []
+  {:title (get-random-title 5)
+   :description "abc"
+   :publisher "def"
+   :temporal "0099"
+   :spatial "yep"
+   :created "0698-01-03"
+   :updated "0786-01-04"
+   :uri "http://www.oofoo.bar"
+   :tags ["oofoo" "oobar"]
+   :huntscore 9})

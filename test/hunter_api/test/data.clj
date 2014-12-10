@@ -4,7 +4,7 @@
             [clj-time.format :as f]
             [hunter-api.util :refer :all]
             [hunter-api.data :refer :all]
-            [hunter-api.test.ds :refer [valid-dataset ds1 ds2 ds3]]
+            [hunter-api.test.ds :refer [valid-dataset ds1 ds2 ds3 ds-rand]]
             [monger.core :refer [connect get-db]]
             [slingshot.test :refer :all]))
 
@@ -77,6 +77,27 @@
   (testing "delete with invalid id"
     (is (thrown+? [:type :hunter-api.data/invalid]
                   (delete-dataset "666" api-db-test)))))
+
+(deftest test-update-dataset
+  (testing "update a dataset"
+    (let [ds (create-dataset (ds-rand) api-db-test)
+          ds-title (ds :title)
+          up (update-dataset {:title ds-title}
+                      {:huntscore 99 :new-field "aupa BO"}
+                      api-db-test)
+          updated-ds (first (find-dataset {:title ds-title} api-db-test))]
+      
+      (is (= 99
+             (updated-ds :huntscore)))
+      (is (= "aupa BO"
+             (updated-ds :new-field)))))
+  (testing "not enough arguments"
+    (let [ds1 (create-dataset ds1 api-db-test)
+          ds2 (create-dataset ds2 api-db-test)
+          ds3 (create-dataset ds3 api-db-test)]
+      (is (thrown+? [:type :hunter-api.data/invalid]
+                    (update-dataset {:publisher "foo"}
+                                     {:updated "0777-01-05" :new-field "aupa BO"} api-db-test))))))
 
 (deftest test-find-dataset
   (testing "finding a dataset"
