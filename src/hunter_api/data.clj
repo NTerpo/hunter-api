@@ -12,17 +12,17 @@
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
-(comment)
-(def config  ;; used in development
-  {:conn (connect {:host "localhost" :port 27017})
-   :db (get-db (connect {:host "localhost" :port 27017}) "europa-open-data")
-   :db-name "europa-open-data"})
+(comment
+  (def config  ;; used in development
+    {:conn (connect {:host "localhost" :port 27017})
+     :db (get-db (connect {:host "localhost" :port 27017}) "")
+     :db-name ""}))
 
-(comment (def config  ;; used in production
-           (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
-             {:conn conn
-              :db db
-              :db-name "app31566584"})))
+(def config ;; used in production
+  (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
+    {:conn conn
+     :db db
+     :db-name "app31566584"}))
 
 ;;
 ;; Validation Functions
