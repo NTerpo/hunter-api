@@ -22,7 +22,8 @@
             [cheshire.core :refer :all]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.format-response :refer [wrap-restful-response]]
-            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]))
+            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
+            [slingshot.slingshot :refer [try+]]))
 
 (defroutes api-routes
   "Main client API route definitions"
@@ -34,10 +35,12 @@
            (context "/datasets" []
                     (GET "/" [:as req]
                          (if (nil? (req :query-string))
-                           (http/not-implemented)
-                           (http/ok (data/find-dataset
-                                     (util/query-string->hashmap
-                                      (req :query-string))))))
+                           (http/unprocessable-entity)
+                           (try+ (http/ok (data/find-dataset
+                                           (util/query-string->hashmap
+                                            (req :query-string))))
+                                 (catch [:type :hunter-api.data/not-found] _
+                                   (http/no-content)))))
                     (GET "/:id" [id]
                          (http/ok (data/get-dataset id)))
                     (HEAD "/id" [id]

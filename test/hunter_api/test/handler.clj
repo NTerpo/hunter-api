@@ -129,7 +129,5 @@
       (delete-dataset id-2)
       (delete-dataset id-3)))
   (testing "not found dataset"
-    (is (thrown+? [:type :hunter-api.data/not-found]
-                  (api-routes
-                   (mock/request :get
-                                 "/api/datasets/?uri=666"))))))
+    (is (= 204
+           ((api-routes (mock/request :get "/api/datasets/?uri=666")) :status)))))
