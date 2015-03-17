@@ -7,21 +7,38 @@
             [monger.joda-time]
             [monger.json]
             [monger.conversion :refer [from-db-object]]
+            [clojurewerkz.elastisch.rest :as esr]
+            [clojurewerkz.elastisch.rest.index :as esi]
+            [clojurewerkz.elastisch.rest.document :as esd]
             [hunter-api.util :refer [with-oid create-now modify-now normalize-dates]]
             [validateur.validation :refer [presence-of valid? validation-set]]
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
-(comment (def config ;; used in development
-           {:conn (connect {:host "localhost" :port 27017})
-            :db (get-db (connect {:host "localhost" :port 27017}) "datagouv-fr")
-            :db-name "datagouv-fr"}))
+(def config ;; used in development
+  {:conn (connect {:host "localhost" :port 27017})
+   :db (get-db (connect {:host "localhost" :port 27017}) "data-gouv-fr")
+   :db-name "data-gouv-fr"})
 
-(def config ;; used in production
-  (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
-    {:conn conn
-     :db db
-     :db-name "app31566584"}))
+(comment (def config ;; used in production
+           (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
+             {:conn conn
+              :db db
+              :db-name "app31566584"})))
+
+;; 
+;; ES TEST
+;;
+
+(defn connect-to-es
+  [& args]
+  (let [conn (esr/connect "http://127.0.0.1:9200")
+        mapping-type {"person" {:properties {:username {:type "string" :store "yes"}
+                                             :firstname {:type "string"}
+                                             :age {:type "integer"}}}}
+        doc {:username "happyjane" :firstname "Jane" :age 22}]
+    ;; (esi/create conn "myapp4_dev" :mappings mapping-type)
+    (println (esd/create conn "myapp4_dev" "person" doc))))
 
 ;;
 ;; Validation Functions
