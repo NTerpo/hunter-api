@@ -129,6 +129,12 @@
                (throw+ {:type ::failed} "Detete Failed"))]}
     ds))
 
+(defn delete-indexed-dataset ;; TODO tests
+  "Delete an indexed dataset by ID"
+  [id]
+  (let [conn (esr/connect "http://127.0.0.1:9200")]
+    (esd/delete conn index-name "ds" id)))
+
 (defn update-dataset
   "Update or insert the dataset corresponding to the query"
   [args new-args & [alt-db]]
