@@ -56,6 +56,12 @@
     (is (thrown+? [:type :hunter-api.data/invalid]
                   (create-dataset {} api-db-test)))))
 
+(deftest test-index-dataset
+  (testing "index valid dataset"
+    )
+  (testing "index invalid dataset"
+    )) ;; TODO
+
 (deftest test-get-dataset
   (testing "get valid dataset"
     (let [created-ds (create-dataset valid-dataset api-db-test)

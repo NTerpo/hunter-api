@@ -11,7 +11,7 @@
             [clojurewerkz.elastisch.rest.index :as esi]
             [clojurewerkz.elastisch.rest.document :as esd]
             [clojurewerkz.elastisch.rest.response :as res]
-            [hunter-api.util :refer [with-oid create-now modify-now normalize-dates]]
+            [hunter-api.util :refer [with-oid create-now modify-now normalize-dates dataset->indexable-ds]]
             [validateur.validation :refer [presence-of valid? validation-set]]
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
@@ -109,6 +109,12 @@
     {:pre [(or (not (nil? ds))
                (throw+ {:type ::not-found} (str id " not found")))]}
     ds))
+
+(defn get-indexed-dataset ;; TODO tests
+  "Fetch an indexed dataset by ID"
+  [id]
+  (let [conn (esr/connect "http://127.0.0.1:9200")]
+    (esd/get conn index-name "ds" id)))
 
 (defn delete-dataset
   "Delete a dataset by ID"
