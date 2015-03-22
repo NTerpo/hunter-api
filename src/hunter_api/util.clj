@@ -56,3 +56,23 @@
         (conj {:created (date->valid-date (ds :created))})
         (conj {:updated (date->valid-date (ds :updated))}))
     ds))
+
+;;
+;; Elastic Search cleaning
+;;
+
+(defn stringify-date
+  "Returns a string from a Joda Datetime"
+  [date]
+  (when date
+    (.toString date "yyyy-MM-dd'T'HH:mm:ss:SSSSSS")))
+
+(defn dataset->indexable-ds
+  "Cleans the dates: Joda Datetime->string and removes the _id"
+  [ds]
+  (-> ds
+      (update-in [:created-ds] stringify-date)
+      (update-in [:modified-ds] stringify-date)
+      (update-in [:created] stringify-date)
+      (update-in [:updated] stringify-date)
+      (dissoc :_id)))

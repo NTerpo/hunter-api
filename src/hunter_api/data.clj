@@ -10,6 +10,7 @@
             [clojurewerkz.elastisch.rest :as esr]
             [clojurewerkz.elastisch.rest.index :as esi]
             [clojurewerkz.elastisch.rest.document :as esd]
+            [clojurewerkz.elastisch.rest.response :as res]
             [hunter-api.util :refer [with-oid create-now modify-now normalize-dates]]
             [validateur.validation :refer [presence-of valid? validation-set]]
             [slingshot.slingshot :refer [throw+]])
@@ -26,19 +27,7 @@
               :db db
               :db-name "app31566584"})))
 
-;; 
-;; ES TEST
-;;
-
-(defn connect-to-es
-  [& args]
-  (let [conn (esr/connect "http://127.0.0.1:9200")
-        mapping-type {"person" {:properties {:username {:type "string" :store "yes"}
-                                             :firstname {:type "string"}
-                                             :age {:type "integer"}}}}
-        doc {:username "happyjane" :firstname "Jane" :age 22}]
-    ;; (esi/create conn "myapp4_dev" :mappings mapping-type)
-    (println (esd/create conn "myapp4_dev" "person" doc))))
+(def index-name "test")
 
 ;;
 ;; Validation Functions
@@ -95,6 +84,20 @@
            (or (ok? (collection/insert db "ds" new-ds))
                (throw+ {:type ::failed} "Create Failed"))]}
     new-ds))
+
+(defn index-dataset
+  "Index a dataset to Elastic Search" ;; TODO tests
+  [ds]
+  (let [new-ds (-> ds
+                   with-oid
+                   modify-now
+                   create-now
+                   normalize-dates)
+        conn (esr/connect "http://127.0.0.1:9200")
+        doc (dataset->indexable-ds new-ds)]
+    {:pre [(validate [new-ds ::Dataset])
+           (or (res/ok? (esd/create conn index-name "ds" doc))
+               (throw+ {:type ::failed} "Indexation Failed"))]}))
 
 (defn get-dataset
   "Fetch a dataset by ID"
