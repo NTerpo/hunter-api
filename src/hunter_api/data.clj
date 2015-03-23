@@ -88,15 +88,12 @@
 (defn index-dataset
   "Index a dataset to Elastic Search" ;; TODO tests
   [ds]
-  (let [new-ds (-> ds
-                   with-oid
-                   modify-now
-                   create-now
-                   normalize-dates)
-        conn (esr/connect "http://127.0.0.1:9200")
-        doc (dataset->indexable-ds new-ds)]
-    {:pre [(validate [new-ds ::Dataset])
-           (or (res/ok? (esd/create conn index-name "ds" doc))
+  (let [conn (esr/connect "http://127.0.0.1:9200")
+        doc (if (contains? ds :created-ds)
+              (dataset->indexable-ds ds)
+              (dataset->indexable-ds
+               (-> ds with-oid modify-now create-now normalize-dates)))]
+    {:pre [(or (res/ok? (esd/create conn index-name "ds" doc))
                (throw+ {:type ::failed} "Indexation Failed"))]}))
 
 (defn get-dataset
