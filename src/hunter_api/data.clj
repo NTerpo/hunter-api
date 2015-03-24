@@ -11,6 +11,8 @@
             [clojurewerkz.elastisch.rest.index :as esi]
             [clojurewerkz.elastisch.rest.document :as esd]
             [clojurewerkz.elastisch.rest.response :as res]
+            [clojurewerkz.elastisch.query :as q]
+            [clojure.pprint :as pp]
             [hunter-api.util :refer [with-oid create-now modify-now normalize-dates dataset->indexable-ds]]
             [validateur.validation :refer [presence-of valid? validation-set]]
             [slingshot.slingshot :refer [throw+]])
@@ -155,3 +157,12 @@
                                               alt-db
                                               (config :db-name)))
          (sort-by :huntscore (sort-by :updated result)))))
+
+(defn query-index
+  [s]
+  (let [conn (esr/connect "http://127.0.0.1:9200")
+        res (esd/search conn index-name "ds" :query (q/term :description s))
+        n (res/total-hits res)
+        hits (res/hits-from res)]
+    (println (format "Total hits: %d" n))
+    (pp/pprint hits)))
