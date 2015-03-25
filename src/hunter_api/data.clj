@@ -13,6 +13,7 @@
             [clojurewerkz.elastisch.rest.response :as res]
             [clojurewerkz.elastisch.query :as q]
             [clojure.pprint :as pp]
+            [clojure.string :as st]
             [hunter-api.util :refer [with-oid create-now modify-now normalize-dates dataset->indexable-ds]]
             [validateur.validation :refer [presence-of valid? validation-set]]
             [slingshot.slingshot :refer [throw+]])
@@ -158,10 +159,26 @@
                                               (config :db-name)))
          (sort-by :huntscore (sort-by :updated result)))))
 
+(defn destructure-query-string
+  [s]
+  (let [a (st/split s #" ")
+        l (last a)
+        ll (last (butlast a))]
+    [s ll l]))
+
 (defn query-index
   [s]
   (let [conn (esr/connect "http://127.0.0.1:9200")
-        res (esd/search conn index-name "ds" :query (q/term :description s))
+        [q ll l] (destructure-query-string s)
+        res (esd/search conn index-name "ds" :query (q/bool
+                                                     {:should [(q/term :description s)
+                                                               (q/term :tags s)
+                                                               (q/term :title s)
+                                                               (q/term :spatial l)
+                                                               (q/term :spatial ll)
+                                                               (q/term :temporal l)
+                                                               (q/term :temporal ll)]
+                                                      :minimum_number_should_match 1}))
         n (res/total-hits res)
         hits (res/hits-from res)]
     (println (format "Total hits: %d" n))
