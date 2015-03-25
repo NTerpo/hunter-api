@@ -171,9 +171,13 @@
   (let [conn (esr/connect "http://127.0.0.1:9200")
         [q ll l] (destructure-query-string s)
         res (esd/search conn index-name "ds" :query (q/bool
-                                                     {:should [(q/term :description s)
-                                                               (q/term :tags s)
-                                                               (q/term :title s)
+                                                     {:should [(q/fuzzy :description {:value q
+                                                                                      :boost 1.2
+                                                                                      :min_similarity 0.5
+                                                                                      :prefix_length 0})
+                                                               ;; (q/term :description s)
+                                                               (q/term :tags q)
+                                                               (q/term :title q)
                                                                (q/term :spatial l)
                                                                (q/term :spatial ll)
                                                                (q/term :temporal l)
