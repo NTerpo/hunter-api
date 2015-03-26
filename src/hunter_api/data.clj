@@ -170,19 +170,22 @@
   [s]
   (let [conn (esr/connect "http://127.0.0.1:9200")
         [q ll l] (destructure-query-string s)
-        res (esd/search conn index-name "ds" :query (q/bool
-                                                     {:should [(q/fuzzy :description {:value q
-                                                                                      :boost 1.2
-                                                                                      :min_similarity 0.5
-                                                                                      :prefix_length 0})
-                                                               ;; (q/term :description s)
-                                                               (q/term :tags q)
-                                                               (q/term :title q)
-                                                               (q/term :spatial l)
-                                                               (q/term :spatial ll)
-                                                               (q/term :temporal l)
-                                                               (q/term :temporal ll)]
-                                                      :minimum_number_should_match 1}))
+        res (esd/search conn index-name "ds"
+                        :query (q/bool
+                                {:should [(q/fuzzy :description {:value q
+                                                                 :boost 1.2
+                                                                 :min_similarity 0.5
+                                                                 :prefix_length 0})
+                                          ;; (q/term :description s)
+                                          (q/term :tags q)
+                                          (q/term :title q)
+                                          (q/term :spatial l)
+                                          (q/term :spatial ll)
+                                          (q/term :temporal l)
+                                          (q/term :temporal ll)]
+                                 :minimum_number_should_match 1})
+                        :sort {:huntscore "desc"
+                               :updated "asc"})
         n (res/total-hits res)
         hits (res/hits-from res)]
     (println (format "Total hits: %d" n))
