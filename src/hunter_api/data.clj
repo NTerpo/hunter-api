@@ -188,4 +188,6 @@
                                :modified-ds "asc"})
         n (res/total-hits res)
         hits (res/hits-from res)]
+    {:pre [(or (not (empty? hits))
+               (throw+ {:type ::not-found} "Not Found"))]}
     hits))
