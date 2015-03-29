@@ -12,9 +12,7 @@
             [clojurewerkz.elastisch.rest.document :as esd]
             [clojurewerkz.elastisch.rest.response :as res]
             [clojurewerkz.elastisch.query :as q]
-            [clojure.pprint :as pp]
-            [clojure.string :as st]
-            [hunter-api.util :refer [with-oid create-now modify-now normalize-dates dataset->indexable-ds]]
+            [hunter-api.util :refer [with-oid create-now modify-now normalize-dates dataset->indexable-ds destructure-query-string clean-hit clean-hits]]
             [validateur.validation :refer [presence-of valid? validation-set]]
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
@@ -159,34 +157,35 @@
                                               (config :db-name)))
          (sort-by :huntscore (sort-by :updated result)))))
 
-(defn destructure-query-string
-  [s]
-  (let [a (st/split s #" ")
-        l (last a)
-        ll (last (butlast a))]
-    [s ll l]))
-
-(defn query-index
+(defn search
+  "Elastic Search Query.
+  Given a string, returns a collection of hits"
   [s]
   (let [conn (esr/connect "http://127.0.0.1:9200")
         [q ll l] (destructure-query-string s)
         res (esd/search conn index-name "ds"
                         :query (q/bool
-                                {:should [(q/fuzzy :description {:value q
-                                                                 :boost 1.2
-                                                                 :min_similarity 0.5
-                                                                 :prefix_length 0})
-                                          ;; (q/term :description s)
-                                          (q/term :tags q)
-                                          (q/term :title q)
+                                {:should [(q/query-string {:query q
+                                                           :default_field :description
+                                                           :boost 1.1})
+                                          (q/fuzzy :tags
+                                                   {:value q
+                                                    :boost 1.4
+                                                    :min_similarity 0.5
+                                                    :prefix_length 0})
+                                          (q/fuzzy :title
+                                                   {:value q
+                                                    :boost 1.6
+                                                    :min_similarity 0.5
+                                                    :prefix_length 0})
                                           (q/term :spatial l)
                                           (q/term :spatial ll)
                                           (q/term :temporal l)
                                           (q/term :temporal ll)]
                                  :minimum_number_should_match 1})
                         :sort {:huntscore "desc"
-                               :updated "asc"})
+                               :updated "asc"
+                               :modified-ds "asc"})
         n (res/total-hits res)
         hits (res/hits-from res)]
-    (println (format "Total hits: %d" n))
-    (pp/pprint hits)))
+    hits))

@@ -76,3 +76,29 @@
       (update-in [:created] stringify-date)
       (update-in [:updated] stringify-date)
       (dissoc :_id)))
+
+;;
+;; Elastic Search Query & Responses
+;;
+
+(defn destructure-query-string
+  "Given a query returns a vector with the query itself,
+  the penultimate word and the last word. Used to check
+  if it's the geo or temporal query"
+  [s]
+  (let [a (str/split s #" ")
+        l (last a)
+        ll (last (butlast a))]
+    [s ll l]))
+
+(defn clean-hit
+  "Given an ES hit, returns the dataset + the id"
+  [m]
+  (let [ds (:_source m)
+        id (:_id m)]
+    (assoc ds :_id id)))
+
+(defn clean-hits
+  "Clean a collection of hits"
+  [coll]
+  (vec (map clean-hit coll)))
