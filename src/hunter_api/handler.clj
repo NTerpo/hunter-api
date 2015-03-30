@@ -36,24 +36,23 @@
                     (GET "/" [:as req]
                          (if (nil? (req :query-string))
                            (http/unprocessable-entity)
-                           (try+ (http/ok (data/find-dataset
-                                           (util/query-string->hashmap
-                                            (req :query-string))))
+                           (try+ (http/ok (-> (data/search (util/query-string->string
+                                                            (req :query-string)))
+                                              util/clean-hits))
                                  (catch [:type :hunter-api.data/not-found] _
                                    (http/no-content)))))
                     (GET "/:id" [id]
-                         (http/ok (data/get-dataset id)))
+                         (http/ok (data/get-indexed-dataset id)))
                     (HEAD "/id" [id]
                           (http/not-implemented))
-                    (POST "/" request 
+                    (POST "/" request ; TODO test
                           (let [ds (data/create-dataset (request :body))
-                                location (http/url-from request (str (ds :_id)))]
+                                location (http/url-from request (str (ds :_id)))
+                                indexed-ds (data/index-dataset (request :body))]
                             (http/created location ds)))
                     (PUT "/" request
-                         ;; (data/update-dataset ((request :body) :args) ((request :body) :new-args))
                          (http/not-implemented))
                     (DELETE "/:id" [id]
-                            ;; (http/ok (data/delete-dataset id))
                             (http/not-implemented))
                     (OPTIONS "/" []
                              (http/options [:options :get :head :put :post :delete]))

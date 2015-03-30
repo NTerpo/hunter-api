@@ -8,10 +8,18 @@
 
 (defn query-string->hashmap
   "Transform a string ~ 'foo=bar&baz=bah' in {\"foo\" \"bar\", \"baz\" \"bah\"}"
-  [query-string]
+  [s]
   (into {}
         (map #(str/split % #"=")
-             (str/split query-string #"&"))))
+             (str/split s #"&"))))
+
+(defn query-string->string
+  "Transform a string ~ 'q=foo+bar' in 'foo bar'"
+  [s]
+  (-> s
+      (str/split #"q=")
+      last
+      (str/replace "+" " ")))
 
 (defn ^:no-doc with-oid
   [ds]

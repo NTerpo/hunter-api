@@ -17,6 +17,10 @@
             [slingshot.slingshot :refer [throw+]])
   (:import org.bson.types.ObjectId))
 
+;;
+;; Config
+;;
+
 (def config ;; used in development
   {:conn (connect {:host "localhost" :port 27017})
    :db (get-db (connect {:host "localhost" :port 27017}) "data-gouv-fr")
@@ -68,7 +72,7 @@
   (doseq [test tests] (apply validate* test)))
 
 ;;
-;; Database CRUD Functions
+;; Mongo DB
 ;;
 
 (defn create-dataset
@@ -86,17 +90,6 @@
                (throw+ {:type ::failed} "Create Failed"))]}
     new-ds))
 
-(defn index-dataset
-  "Index a dataset to Elastic Search" ;; TODO tests
-  [ds]
-  (let [conn (esr/connect "http://127.0.0.1:9200")
-        doc (if (contains? ds :created-ds)
-              (dataset->indexable-ds ds)
-              (dataset->indexable-ds
-               (-> ds with-oid modify-now create-now normalize-dates)))]
-    {:pre [(or (res/ok? (esd/create conn index-name "ds" doc))
-               (throw+ {:type ::failed} "Indexation Failed"))]}))
-
 (defn get-dataset
   "Fetch a dataset by ID"
   [id & [alt-db]]
@@ -107,12 +100,6 @@
     {:pre [(or (not (nil? ds))
                (throw+ {:type ::not-found} (str id " not found")))]}
     ds))
-
-(defn get-indexed-dataset ;; TODO tests
-  "Fetch an indexed dataset by ID"
-  [id]
-  (let [conn (esr/connect "http://127.0.0.1:9200")]
-    (esd/get conn index-name "ds" id)))
 
 (defn delete-dataset
   "Delete a dataset by ID"
@@ -126,12 +113,6 @@
     {:pre [(or (ok? (collection/remove-by-id db "ds" (ObjectId. id)))
                (throw+ {:type ::failed} "Detete Failed"))]}
     ds))
-
-(defn delete-indexed-dataset ;; TODO tests
-  "Delete an indexed dataset by ID"
-  [id]
-  (let [conn (esr/connect "http://127.0.0.1:9200")]
-    (esd/delete conn index-name "ds" id)))
 
 (defn update-dataset
   "Update or insert the dataset corresponding to the query"
@@ -156,6 +137,33 @@
                                               alt-db
                                               (config :db-name)))
          (sort-by :huntscore (sort-by :updated result)))))
+
+;;
+;; Elastic Search
+;;
+
+(defn index-dataset
+  "Index a dataset to Elastic Search" ;; TODO tests
+  [ds]
+  (let [conn (esr/connect "http://127.0.0.1:9200")
+        doc (if (contains? ds :created-ds)
+              (dataset->indexable-ds ds)
+              (dataset->indexable-ds
+               (-> ds with-oid modify-now create-now normalize-dates)))]
+    {:pre [(or (res/ok? (esd/create conn index-name "ds" doc))
+               (throw+ {:type ::failed} "Indexation Failed"))]}))
+
+(defn get-indexed-dataset ;; TODO tests
+  "Fetch an indexed dataset by ID"
+  [id]
+  (let [conn (esr/connect "http://127.0.0.1:9200")]
+    (esd/get conn index-name "ds" id)))
+
+(defn delete-indexed-dataset ;; TODO tests
+  "Delete an indexed dataset by ID"
+  [id]
+  (let [conn (esr/connect "http://127.0.0.1:9200")]
+    (esd/delete conn index-name "ds" id)))
 
 (defn search
   "Elastic Search Query.
