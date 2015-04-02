@@ -23,8 +23,8 @@
 
 (def config ;; used in development
   {:conn (connect {:host "localhost" :port 27017})
-   :db (get-db (connect {:host "localhost" :port 27017}) "data-gouv-fr")
-   :db-name "data-gouv-fr"})
+   :db (get-db (connect {:host "localhost" :port 27017}) "hunter-datasets-test")
+   :db-name "hunter-datasets-test"})
 
 (comment (def config ;; used in production
            (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
@@ -65,6 +65,20 @@
                    (presence-of :tags)
                    (presence-of :uri)) dataset)
     (throw+ {:type ::invalid} "Invalid Dataset")))
+
+(defmethod validate* ::Ds
+  [dataset _]
+  (if-not (valid? (validation-set
+                   (presence-of :title)
+                   (presence-of :description)
+                   (presence-of :publisher)
+                   (presence-of :temporal)
+                   (presence-of :spatial)
+                   (presence-of :created)
+                   (presence-of :updated)
+                   (presence-of :tags)
+                   (presence-of :uri)) dataset)
+    (throw+ {:type ::invalid} "Invalid ds")))
 
 (defn ^:no-doc validate
   "Execute a sequence of validation tests"
@@ -143,8 +157,9 @@
 ;;
 
 (defn index-dataset
-  "Index a dataset to Elastic Search" ;; TODO tests
+  "Index a dataset to Elastic Search"
   [ds]
+  {:pre [(nil? (validate [ds ::Ds]))]}
   (let [conn (esr/connect "http://127.0.0.1:9200")
         doc (if (contains? ds :created-ds)
               (dataset->indexable-ds ds)
@@ -153,13 +168,13 @@
     {:pre [(or (res/ok? (esd/create conn index-name "ds" doc))
                (throw+ {:type ::failed} "Indexation Failed"))]}))
 
-(defn get-indexed-dataset ;; TODO tests
+(defn get-indexed-dataset
   "Fetch an indexed dataset by ID"
   [id]
   (let [conn (esr/connect "http://127.0.0.1:9200")]
     (esd/get conn index-name "ds" id)))
 
-(defn delete-indexed-dataset ;; TODO tests
+(defn delete-indexed-dataset
   "Delete an indexed dataset by ID"
   [id]
   (let [conn (esr/connect "http://127.0.0.1:9200")]

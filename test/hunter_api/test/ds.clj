@@ -43,6 +43,16 @@
           :tags ["foo" "bar"]
           :huntscore 2})
 
+(def poc {:description "foo bar",
+          :tags ["foo" "bar"],
+          :publisher "Foo",
+          :updated "0666-01-02",
+          :created "0666-01-01",
+          :spatial "Bar",
+          :title "pocahontas",
+          :uri "http://foo.bar",
+          :temporal "0666"})
+
 (def alphanumeric "abcdefghijklmnopqrstuvwxyz1234567890")
 
 (defn get-random-title [length]

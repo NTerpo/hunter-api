@@ -45,7 +45,7 @@
                          (http/ok (data/get-indexed-dataset id)))
                     (HEAD "/id" [id]
                           (http/not-implemented))
-                    (POST "/" request ; TODO test
+                    (POST "/" request 
                           (let [ds (data/create-dataset (request :body))
                                 location (http/url-from request (str (ds :_id)))
                                 indexed-ds (data/index-dataset (request :body))]

@@ -56,12 +56,6 @@
     (is (thrown+? [:type :hunter-api.data/invalid]
                   (create-dataset {} api-db-test)))))
 
-(deftest test-index-dataset
-  (testing "index valid dataset"
-    )
-  (testing "index invalid dataset"
-    )) ;; TODO
-
 (deftest test-get-dataset
   (testing "get valid dataset"
     (let [created-ds (create-dataset valid-dataset api-db-test)
@@ -124,3 +118,28 @@
                   (find-dataset
                    {:temporal "666"}
                    api-db-test)))))
+
+;; ES tests
+
+(deftest test-index-dataset
+  (testing "index valid dataset"
+    (let [res (index-dataset valid-dataset)]
+      (is (= [true] (res :pre)))))
+  (testing "index invalid dataset"
+    (is (thrown+? [:type :hunter-api.data/invalid]
+                  (index-dataset {})))))
+
+(deftest test-search
+  (testing "search a dataset"
+    (let [ds1 (index-dataset ds1)
+          ds2 (index-dataset ds2)
+          ds3 (index-dataset ds3)
+          found (last (search "test2"))
+          found-2 (last (search "baz"))
+          found-3 (last (search "foo"))]
+      (is (= (ds2 :title)
+             (found :title)))
+      (is (= (ds2 :title)
+             (found-2 :title)))
+      (is (= (ds1 :title)
+             (found-3 :title))))))
