@@ -23,8 +23,8 @@
 
 (def config ;; used in development
   {:conn (connect {:host "localhost" :port 27017})
-   :db (get-db (connect {:host "localhost" :port 27017}) "hunter-datasets-test")
-   :db-name "hunter-datasets-test"})
+   :db (get-db (connect {:host "localhost" :port 27017}) "hdt")
+   :db-name "hdt"})
 
 (comment (def config ;; used in production
            (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
@@ -32,7 +32,7 @@
               :db db
               :db-name "app31566584"})))
 
-(def index-name "test")
+(def index-name "hdt")
 
 ;;
 ;; Validation Functions

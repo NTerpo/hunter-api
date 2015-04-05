@@ -50,10 +50,10 @@
 
 ~> #<DateTime YYYY-MM-ddT00:00:00.000+02:00>"
   {:doc/format :markdown}
-  [date]
-  (if (nil? date)
-    nil
-    (f/parse multi-parser date)))
+  [s]
+  (when s
+    (let [date (check-for-timezone-transition s)]
+      (f/parse multi-parser date))))
 
 (defn normalize-dates
   "parses a dataset and apply transformation to get normalized dates"
@@ -64,6 +64,10 @@
         (conj {:created (date->valid-date (ds :created))})
         (conj {:updated (date->valid-date (ds :updated))}))
     ds))
+
+(defn check-for-timezone-transition
+  [s]
+  (if (re-find #"2015-03-29T02" s) "2015-03-29T03:00:00.000000" s))
 
 ;;
 ;; Elastic Search cleaning
