@@ -38,6 +38,10 @@
 ;; Date formatter
 ;;
 
+(defn ^:no-doc check-for-timezone-transition
+  [s]
+  (if (re-find #"2015-03-29T02" s) "2015-03-29T03:00:00.000000" s))
+
 (def ^:no-doc multi-parser (f/formatter (time/default-time-zone)  "YYYY-MM-dd" "YYYY/MM/dd" "YYYY-MM-dd'T'HH:mm:ss.SSSSSS" "YYYY-MM-dd'T'HH:mm:ss"))
 
 (defn date->valid-date
@@ -64,10 +68,6 @@
         (conj {:created (date->valid-date (ds :created))})
         (conj {:updated (date->valid-date (ds :updated))}))
     ds))
-
-(defn check-for-timezone-transition
-  [s]
-  (if (re-find #"2015-03-29T02" s) "2015-03-29T03:00:00.000000" s))
 
 ;;
 ;; Elastic Search cleaning
