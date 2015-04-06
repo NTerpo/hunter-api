@@ -193,12 +193,12 @@
                                                            :boost 1.1})
                                           (q/fuzzy :tags
                                                    {:value q
-                                                    :boost 1.4
+                                                    :boost 2.0
                                                     :min_similarity 0.5
                                                     :prefix_length 0})
                                           (q/fuzzy :title
                                                    {:value q
-                                                    :boost 1.6
+                                                    :boost 2.0
                                                     :min_similarity 0.5
                                                     :prefix_length 0})
                                           (q/term :spatial l)
@@ -206,9 +206,8 @@
                                           (q/term :temporal l)
                                           (q/term :temporal ll)]
                                  :minimum_number_should_match 1})
-                        :sort {:huntscore "desc"
-                               :updated "asc"
-                               :modified-ds "asc"})
+                        ;; :sort {:huntscore "desc"}
+                        :size 150)
         n (res/total-hits res)
         hits (res/hits-from res)]
     {:pre [(or (not (empty? hits))
