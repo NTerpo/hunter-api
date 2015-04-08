@@ -185,31 +185,39 @@
   Given a string, returns a collection of hits"
   [s]
   (let [conn (esr/connect "http://127.0.0.1:9200")
-        [q ll l] (destructure-query-string s)
+        [q t s] (destructure-query-string s)
         res (esd/search conn index-name "ds"
                         :query (q/bool
                                 {:should [(q/query-string {:query q
                                                            :default_field :description
                                                            :boost 1.1})
-                                          (q/fuzzy :tags
-                                                   {:value q
-                                                    :boost 2.0
-                                                    :min_similarity 0.5
-                                                    :prefix_length 0})
-                                          (q/fuzzy :title
-                                                   {:value q
-                                                    :boost 2.0
-                                                    :min_similarity 0.5
-                                                    :prefix_length 0})
-                                          (q/term :spatial l)
-                                          (q/term :spatial ll)
-                                          (q/term :temporal l)
-                                          (q/term :temporal ll)]
+                                          ;; (q/fuzzy :tags
+                                          ;;          {:value q
+                                          ;;           :boost 2.0
+                                          ;;           :min_similarity 0.5
+                                          ;;           :prefix_length 0})
+                                          ;; (q/fuzzy :title
+                                          ;;          {:value q
+                                          ;;           :boost 2.0
+                                          ;;           :min_similarity 0.5
+                                          ;;           :prefix_length
+                                          ;;           0})
+                                          (q/term :title ; TODO boost 
+                                                  q)
+                                          (q/term :tags ; TODO boost
+                                                  q)
+                                          (q/term :spatial t)
+                                          (q/term :spatial s)
+                                          (q/term :temporal t)
+                                          (q/term :temporal s)]
                                  :minimum_number_should_match 1})
-                        ;; :sort {:huntscore "desc"}
-                        :size 150)
+                        ; :sort {:huntscore "desc"} ; TODO find way to
+                        ; handle scoring
+                        :size 50)
         n (res/total-hits res)
         hits (res/hits-from res)]
     {:pre [(or (not (empty? hits))
                (throw+ {:type ::not-found} "Not Found"))]}
-    hits))
+    (println (count hits) " hits")
+    (map #(vector (:title %) ;; (:description %)
+                  (:huntscore %)) (clean-hits hits))))
