@@ -1,4 +1,4 @@
-(defproject hunter-api "0.2.0"
+(defproject hunter-api "0.3.0--SNAPSHOT"
   :description "REST API to handle open datasets meta-data"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -21,6 +21,7 @@
   :ring {:handler hunter-api.handler/app}
   :profiles {:dev {:resource-paths ["resource-dev"]
                    :dependencies [[javax.servlet/servlet-api "2.5"]
-                        [ring-mock "0.1.5"]
-                        [clj-http "1.0.1"]]}
+                                  [ring-mock "0.1.5"]
+                                  [clj-http "1.0.1"]
+                                  [criterium "0.4.3"]]}
              :prod {:resource-paths ["resource-prod"]}})

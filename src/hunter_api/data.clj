@@ -187,28 +187,31 @@
   (let [conn (esr/connect "http://127.0.0.1:9200")
         [q t s] (destructure-query-string s)
         res (esd/search conn index-name "ds"
-                        :query {:function_score {:query (q/bool
-                                                         {:should [(q/query-string {:query q
-                                                                                    :default_field :description
-                                                                                    :boost 1.1})
-                                                                   (q/term :title q) ; TODO boost 
-                                                                   (q/term :tags q)  ; TODO boost
-                                                                   (q/term :spatial t)
-                                                                   (q/term :spatial s)
-                                                                   (q/term :temporal t)
-                                                                   (q/term :temporal s)]
-                                                          :minimum_number_should_match 1})
-                                                 :boost_mode "replace"
-                                                 :script_score {:script "search_ponderation *_score + hunt_ponderation * doc['huntscore'].value"
-                                                                :params {:search_ponderation 5
-                                                                         :hunt_ponderation 1}}}}
+                        :query
+                        {:function_score
+                         {:query
+                          {:bool
+                           {:should
+                            [{:term {:title {:value q :boost 4.0}}}
+                             {:term {:tags {:value q :boost 2.5}}}
+                             {:query_string
+                              {:query q
+                               :default_field :description
+                               :boost 1.1}}
+                             {:term {:spatial {:value t :boost 4.0}}}
+                             {:term {:spatial {:value s :boost 4.0}}}
+                             {:term {:temporal {:value t :boost 4.0}}}
+                             {:term {:temporal {:value s :boost 4.0}}}]
+                            :minimum_number_should_match 1}}
+                          :boost_mode "replace"
+                          :script_score
+                          {:script "search_ponderation *_score + hunt_ponderation * doc['huntscore'].value"
+                           :params
+                           {:search_ponderation 5
+                            :hunt_ponderation 1}}}}
                         :size 50)
         n (res/total-hits res)
         hits (res/hits-from res)]
     {:pre [(or (not (empty? hits))
                (throw+ {:type ::not-found} "Not Found"))]}
-    ;; hits
-    (println (count hits))
-    (map #(vector (:title %) ;; (:description %)
-                  (:huntscore %)) (clean-hits hits))
-    ))
+    hits))

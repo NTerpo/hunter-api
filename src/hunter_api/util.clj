@@ -97,11 +97,12 @@
   "Given a query returns a vector with the query itself,
   the penultimate word and the last word. Used to check
   if it's the geo or temporal query"
-  [s]
-  (let [a (str/split s #" ")
-        l (last a)
-        ll (last (butlast a))]
-    [s ll l]))
+  [q]
+  (let [q (str/trim q)
+        a (str/split q #" ")
+        t (last a)
+        s (if (> 1 (count a)) (last (butlast a)) t)]
+    [q s t]))
 
 (defn clean-hit
   "Given an ES hit, returns the dataset + the id"
