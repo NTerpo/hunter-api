@@ -42,7 +42,10 @@
                                  (catch [:type :hunter-api.data/not-found] _
                                    (http/no-content)))))
                     (GET "/:id" [id]
-                         (http/ok (data/get-indexed-dataset id)))
+                         (let [ds (data/get-indexed-dataset id)]
+                           (if (nil? ds)
+                             (http/bad-request)
+                             (http/ok (-> ds util/clean-hit)))))
                     (HEAD "/id" [id]
                           (http/not-implemented))
                     (POST "/" request 
