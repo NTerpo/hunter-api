@@ -33,7 +33,7 @@
      :db-name "app31566584"}))
 
 (def index-name "hdt")
-(def es-uri "https://4mhfyjzk:pu4x39isl8ldhzuj@dogwood-1627635.us-east-1.bonsai.io")
+(def es-uri "http://4mhfyjzk:pu4x39isl8ldhzuj@dogwood-1627635.us-east-1.bonsai.io")
 
 ;;
 ;; Validation Functions
