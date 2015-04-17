@@ -160,7 +160,7 @@
   "Index a dataset to Elastic Search"
   [ds]
   {:pre [(nil? (validate [ds ::Ds]))]}
-  (let [conn (esr/connect! (System/getenv "SEARCHBOX_URL"))
+  (let [conn (esr/connect (System/getenv "SEARCHBOX_URL"))
         doc (if (contains? ds :created-ds)
               (dataset->indexable-ds ds)
               (dataset->indexable-ds
@@ -171,20 +171,20 @@
 (defn get-indexed-dataset
   "Fetch an indexed dataset by ID"
   [id]
-  (let [conn (esr/connect! (System/getenv "SEARCHBOX_URL"))]
+  (let [conn (esr/connect (System/getenv "SEARCHBOX_URL"))]
     (esd/get conn index-name "ds" id)))
 
 (defn delete-indexed-dataset
   "Delete an indexed dataset by ID"
   [id]
-  (let [conn (esr/connect! (System/getenv "SEARCHBOX_URL"))]
+  (let [conn (esr/connect (System/getenv "SEARCHBOX_URL"))]
     (esd/delete conn index-name "ds" id)))
 
 (defn search
   "Elastic Search Query.
   Given a string, returns a collection of hits"
   [s]
-  (let [conn (esr/connect! (System/getenv "SEARCHBOX_URL"))
+  (let [conn (esr/connect (System/getenv "SEARCHBOX_URL"))
         [q t s] (destructure-query-string s)
         res (esd/search conn index-name "ds"
                         :query
