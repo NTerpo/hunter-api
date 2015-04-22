@@ -80,7 +80,7 @@
    (wrap-json-response)
    (wrap-restful-response)
    (wrap-cors  :access-control-allow-origin #".*"
-               :access-control-allow-methods [:get])))
+               :access-control-allow-methods [:get :post])))
 
 (defn -main [& args]
   (let [port (Integer/parseInt (System/getenv "PORT"))]
