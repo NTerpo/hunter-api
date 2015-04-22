@@ -23,6 +23,7 @@
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.format-response :refer [wrap-restful-response]]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
+            [ring.middleware.cors :refer [wrap-cors]]
             [slingshot.slingshot :refer [try+]]))
 
 (defroutes api-routes
@@ -77,7 +78,9 @@
    (wrap-exception-handler)
    (wrap-response-logger)
    (wrap-json-response)
-   (wrap-restful-response)))
+   (wrap-restful-response)
+   (wrap-cors  :access-control-allow-origin #".*"
+               :access-control-allow-methods [:get])))
 
 (defn -main [& args]
   (let [port (Integer/parseInt (System/getenv "PORT"))]
