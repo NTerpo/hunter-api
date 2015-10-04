@@ -6,6 +6,8 @@
 
 0.2.0
 
+There won't be more
+
 ## Prerequisites
 
 You will need [Leiningen][1] 1.7.0 or above installed.
@@ -21,12 +23,4 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2014 Raw Data Hunter - Nicolas Terpolilli
-
-# Data Hunter - Value Proposition
-
-Find open data easily and quicker than ever
-
-## Usage
-
-![usage](./doc/images/hunter.gif)
+[License Eclipse 1.0](http://opensource.org/licenses/eclipse-1.0.php)
