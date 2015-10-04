@@ -21,16 +21,10 @@
 ;; Config
 ;;
 
-(comment (def config ;; used in development
-           {:conn (connect {:host "localhost" :port 27017})
-            :db (get-db (connect {:host "localhost" :port 27017}) "hdt")
-            :db-name "hdt"}))
-
-(def config ;; used in production
-  (let [{:keys [conn db]} (connect-via-uri "mongodb://terpo:Hunter666@dogen.mongohq.com:10036/app31566584")]
-    {:conn conn
-     :db db
-     :db-name "app31566584"}))
+(def config ;; used in development
+  {:conn (connect {:host "localhost" :port 27017})
+   :db (get-db (connect {:host "localhost" :port 27017}) "hdt")
+   :db-name "hdt"})
 
 (def index-name "hdt")
 
